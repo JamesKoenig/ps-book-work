@@ -1,4 +1,4 @@
-module Change where
+module Solutions.Change where
 
 import Prelude
 import Data.Int (rem)

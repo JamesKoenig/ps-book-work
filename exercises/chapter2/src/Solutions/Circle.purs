@@ -1,4 +1,4 @@
-module Circle where
+module Solutions.Circle where
 import Data.Semiring ((*))
 import Data.Number (pi) as Number
 

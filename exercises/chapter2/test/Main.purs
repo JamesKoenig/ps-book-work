@@ -1,15 +1,14 @@
 module Test.Main where
 
 import Prelude
-import Test.MySolutions
 import Effect (Effect)
 import Euler (answer)
 import Test.Unit (suite, test)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
-import Diagonal (diagonal)
-import Circle (circleArea)
-import Change (leftoverCents)
+import Solutions.Diagonal (diagonal)
+import Solutions.Circle   (circleArea)
+import Solutions.Change   (leftoverCents)
 
 main :: Effect Unit
 main = do

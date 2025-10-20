@@ -1,4 +1,4 @@
-module Diagonal where
+module Solutions.Diagonal where
 
 -- these are also in `Prelude`
 import Data.Semiring ((*)
