@@ -1,13 +1,15 @@
 module Test.Main where
 
 import Prelude
-import Test.MySolutions
 import Data.AddressBook (AddressBook, Entry, emptyBook, findEntry, insertEntry)
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
 import Test.Unit (TestSuite, suite, test)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
+
+import Solutions.AddressBook (findEntryByStreet
+                             )
 
 john :: Entry
 john =
@@ -59,7 +61,6 @@ main :: Effect Unit
 main =
   runTest do
     runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise - findEntryByStreet" do
       test "Lookup existing" do
         Assert.equal (Just john)
@@ -67,6 +68,7 @@ main =
       test "Lookup missing" do
         Assert.equal Nothing
           $ findEntryByStreet "456 Nothing St." book
+    {-  Move this block comment starting point to enable more tests
     suite "Exercise - isInBook" do
       test "Check existing" do
         Assert.equal true
