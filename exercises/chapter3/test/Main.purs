@@ -10,6 +10,7 @@ import Test.Unit.Main (runTest)
 
 import Solutions.AddressBook (findEntryByStreet
                              ,isInBook
+                             ,removeDuplicates
                              )
 
 john :: Entry
@@ -76,10 +77,10 @@ main =
       test "Check missing" do
         Assert.equal false
           $ isInBook "unknown" "person" book
-    {-  Move this block comment starting point to enable more tests
     test "Exercise - removeDuplicates" do
       Assert.equal book
         $ removeDuplicates bookWithDuplicate
+    {-  Move this block comment starting point to enable more tests
 
 -}
 runChapterExamples :: TestSuite

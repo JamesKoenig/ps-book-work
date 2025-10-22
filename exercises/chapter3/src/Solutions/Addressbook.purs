@@ -13,6 +13,7 @@ import Data.List (filter
                  ,null
                  ,(:)
                  ,List(..)
+                 ,nubByEq
                  )
 import Data.AddressBook (AddressBook
                         ,Entry
@@ -46,3 +47,8 @@ isInBook'' first last ({firstName, lastName} : _ ) |  first == firstName
                                                       true
 isInBook'' first last ( _ : xs) = isInBook'' first last xs
 
+-- O(n^2)
+removeDuplicates :: AddressBook -> AddressBook
+removeDuplicates = nubByEq nameEq
+  where nameEq = \left right -> left.firstName == right.firstName
+                             && left.lastName  == right.lastName
