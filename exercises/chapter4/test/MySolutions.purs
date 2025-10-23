@@ -11,7 +11,10 @@ import Prelude
 -- negatives.  There's probably some world where you could type constraint it
 -- using some really cool System F type shit.
 factorial :: Int -> Int
-factorial 0 = 1
-factorial n = n * factorial (n-1)
+factorial = factorial' 1
+  -- tail-recursive version
+  where factorial' :: Int -> Int -> Int
+        factorial' acc 0 = acc
+        factorial' acc n = factorial' (n*acc) (n-1)
 
 
