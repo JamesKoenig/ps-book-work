@@ -1,6 +1,8 @@
 module Test.MySolutions where
 
 import Prelude
+import Data.Person (Person
+                   )
 
 -- 1. (Easy) Write the `factorial` function using pattern matching.
 --   Hint: Consider the two corner cases of zero and non-zero inputs.
@@ -52,3 +54,11 @@ pascal 0 _ = 0
 pascal n k | k > n     = 0
            | n-k < k   = pascal n (n-k)  -- the triangle is symmetric.
            | otherwise = (pascal (n-1) k) + (pascal (n-1) (k-1))
+
+-- ### Group 2: ###
+
+-- 1. (Easy) write a function `sameCity` which uses record patterns to test
+--    whether two `Person` records live in the same city.
+
+sameCity :: Person -> Person -> Boolean
+sameCity { address: { city: citL } } { address: { city: citR }} = citL == citR
