@@ -5,7 +5,7 @@ import Solutions.Group1 (factorial
                         ,binomial
                         ,pascal
                         )
-import Test.MySolutions (sameCity
+import Solutions.Group2 (sameCity
                         ,fromSingleton
                         )
 
