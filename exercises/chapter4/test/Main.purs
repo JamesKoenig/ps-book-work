@@ -5,6 +5,7 @@ import Test.MySolutions (factorial
                         ,binomial
                         ,pascal
                         ,sameCity
+                        ,fromSingleton
                         )
 
 import ChapterExamples (Amp(..), current, fromString, gcd, gcdV2, isEmpty, livesInLA, lzs, partialFunction, showPerson, showPersonV2, sortPair, takeFive, toString, unknownPerson, Volt(..))
@@ -75,7 +76,6 @@ main =
           $ sameCity john rose
         Assert.equal false
           $ sameCity amy rose
-    {-  Move this block comment starting point to enable more tests
       test "Exercise - fromSingleton" do
         Assert.equal "default"
           $ fromSingleton "default" []
@@ -83,6 +83,7 @@ main =
           $ fromSingleton "default" ["B"]
         Assert.equal "default"
           $ fromSingleton "default" ["B", "C", "D"]
+    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Algebraic Data Types" do
       test "Exercise - circleAtOrigin" do
         Assert.equal origin

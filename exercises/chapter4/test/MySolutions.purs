@@ -62,3 +62,10 @@ pascal n k | k > n     = 0
 
 sameCity :: Person -> Person -> Boolean
 sameCity { address: { city: citL } } { address: { city: citR }} = citL == citR
+
+
+-- 2. (Medium) write a function `fromSingleton`
+fromSingleton :: forall a. a -> Array a -> a
+fromSingleton default [x] = x
+fromSingleton default _   = default
+
