@@ -10,13 +10,14 @@ import Solutions.Group2 (sameCity
                         )
 import Solutions.Group3 (circleAtOrigin
                         ,doubleScaleAndCenter
+                        ,shapeText
                         )
 
 -- TODO: re-add Volt when doing the relevant exercises
 import ChapterExamples (Amp(..), current, fromString, gcd, gcdV2, isEmpty, livesInLA, lzs, partialFunction, showPerson, showPersonV2, sortPair, takeFive, toString, unknownPerson) --, Volt(..))
 -- these will be uncommented as they come in
 --import Data.Int (round)
---import Data.Maybe (Maybe(Just, Nothing))
+import Data.Maybe (Maybe(Just, Nothing))
 import Data.Person (Person)
 import Data.Picture (Shape(..), Picture, getCenter, origin)
 import Effect (Effect)
@@ -108,7 +109,6 @@ main =
           $ doubleScaleAndCenter $ Line { x: 0.0, y: 4.0 } { x: 4.0, y: 8.0 }
         Assert.equal (Text { x: 0.0, y: 0.0 } "Hello .purs!" )
           $ doubleScaleAndCenter $ Text { x: 4.0, y: 6.0 } "Hello .purs!"
-    {-  Move this block comment starting point to enable more tests
       test "Exercise - shapeText" do
         Assert.equal (Just "Hello .purs!")
           $ shapeText $ Text origin "Hello .purs!"
@@ -118,6 +118,7 @@ main =
           $ shapeText $ Rectangle origin 1.0 1.0
         Assert.equal Nothing
           $ shapeText $ Line origin { x: 1.0, y: 1.0 }
+    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Newtype" do
       test "Exercise - calculateWattage" do
         Assert.equal 60.0

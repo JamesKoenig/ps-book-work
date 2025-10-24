@@ -10,6 +10,9 @@ import Data.Picture (Shape(Circle
                     ,origin
                     )
 
+-- I'm good using the range shorthand here for `Just` and `Nothing`
+import Data.Maybe (Maybe(..))
+
 -- ### Group 3: ###
 
 -- 1. (Easy) Write a function `circleAtOrigin` which constructs a `Circle` (of
@@ -32,3 +35,9 @@ doubleScaleAndCenter (Line start end ) = let width  = end.x - start.x
                                           in
                                             Line { x: -width, y: -height }
                                                  { x:  width, y:  height }
+
+-- 3. (Medium) Write a function `shapeText` which extracts text from a `Shape`
+--    it should return `Maybe String`
+shapeText :: Shape -> Maybe String
+shapeText (Text _ text) = Just text
+shapeText _             = Nothing
