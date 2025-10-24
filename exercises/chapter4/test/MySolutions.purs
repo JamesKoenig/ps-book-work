@@ -48,6 +48,7 @@ binomial n k | n < k     = 0
 --                         \----------------------------------------------------
 pascal :: Int -> Int -> Int
 pascal _ 0 = 1
+pascal 0 _ = 0
 pascal n k | k > n     = 0
            | n-k < k   = pascal n (n-k)  -- the triangle is symmetric.
            | otherwise = (pascal (n-1) k) + (pascal (n-1) (k-1))
