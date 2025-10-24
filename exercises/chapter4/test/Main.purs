@@ -9,9 +9,11 @@ import Solutions.Group2 (sameCity
                         ,fromSingleton
                         )
 
-import ChapterExamples (Amp(..), current, fromString, gcd, gcdV2, isEmpty, livesInLA, lzs, partialFunction, showPerson, showPersonV2, sortPair, takeFive, toString, unknownPerson, Volt(..))
-import Data.Int (round)
-import Data.Maybe (Maybe(Just, Nothing))
+-- TODO: re-add Volt when doing the relevant exercises
+import ChapterExamples (Amp(..), current, fromString, gcd, gcdV2, isEmpty, livesInLA, lzs, partialFunction, showPerson, showPersonV2, sortPair, takeFive, toString, unknownPerson) --, Volt(..))
+-- these will be uncommented as they come in
+--import Data.Int (round)
+--import Data.Maybe (Maybe(Just, Nothing))
 import Data.Person (Person)
 import Data.Picture (Shape(..), Picture, getCenter, origin)
 import Effect (Effect)
