@@ -32,20 +32,20 @@ binomial _ 0 = 1
 binomial n k | n < k     = 0
              | otherwise = binhelper n k (n-k)
              where binhelper :: Int -> Int -> Int -> Int
-                   binhelper n k nk | k < nk    = binhelper n nk k
-                                    | otherwise = div (factFrac n nk)
-                                                      (factorial k)
+                   binhelper n' k' nk | k' < nk    = binhelper n' nk k'
+                                      | otherwise  = div (factFrac n' nk)
+                                                         (factorial k')
 
 -- 3. (Medium) write a function `pascal` which uses Pascal's Rule for computing
 --      the same binomial coefficients as the previous exercise.
 
--- for visual reference:   /----------------------------------------------------
---    1       n=0          | pascal's theorem can be seen as an extension of:
---   1 1      n=1          | (x+1)*(x^n+a_{n-1}*x^n-1+...) as x+1 distributes
---  1 2 1     n=2          | over the rest of the polynomial, there are two
--- 1 3 3 1    n=3          | different ways to reach the same element degree,
---1 4 6 4 1   n=4          | {x*(a*x^{n-1}) + 1*(b*x^n)}.
---                         \----------------------------------------------------
+-- for visual reference:   /--------------------------------------------------\
+--    1       n=0          | pascal's theorem can be seen as an extension of: |
+--   1 1      n=1          | (x+1)*(x^n+a_{n-1}*x^n-1+...) as x+1 distributes |
+--  1 2 1     n=2          | over the rest of the polynomial, there are two   |
+-- 1 3 3 1    n=3          | different ways to reach the same element degree, |
+--1 4 6 4 1   n=4          | {x*(a*x^{n-1}) + 1*(b*x^n)}.                     |
+--                         \--------------------------------------------------/
 pascal :: Int -> Int -> Int
 pascal _ 0 = 1
 pascal 0 _ = 0
