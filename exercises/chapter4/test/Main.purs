@@ -8,6 +8,8 @@ import Solutions.Group1 (factorial
 import Solutions.Group2 (sameCity
                         ,fromSingleton
                         )
+import Solutions.Group3 (circleAtOrigin
+                        )
 
 -- TODO: re-add Volt when doing the relevant exercises
 import ChapterExamples (Amp(..), current, fromString, gcd, gcdV2, isEmpty, livesInLA, lzs, partialFunction, showPerson, showPersonV2, sortPair, takeFive, toString, unknownPerson) --, Volt(..))
@@ -86,11 +88,11 @@ main =
           $ fromSingleton "default" ["B"]
         Assert.equal "default"
           $ fromSingleton "default" ["B", "C", "D"]
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Algebraic Data Types" do
       test "Exercise - circleAtOrigin" do
         Assert.equal origin
           $ getCenter circleAtOrigin
+    {-  Move this block comment starting point to enable more tests
       test "Exercise - doubleScaleAndCenter" do
         Assert.equal (Circle origin 10.0)
           $ doubleScaleAndCenter $ Circle origin 5.0
