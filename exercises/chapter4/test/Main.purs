@@ -1,10 +1,11 @@
 module Test.Main where
 
 import Prelude hiding (gcd)
-import Test.MySolutions (factorial
+import Solutions.Group1 (factorial
                         ,binomial
                         ,pascal
-                        ,sameCity
+                        )
+import Test.MySolutions (sameCity
                         ,fromSingleton
                         )
 
