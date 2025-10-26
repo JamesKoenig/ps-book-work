@@ -6,6 +6,7 @@ import Data.Picture (Shape(Circle
                           ,Text
                           ,Rectangle
                           ,Line
+                          ,Clipped
                           )
                     ,origin
                     )
@@ -35,6 +36,8 @@ doubleScaleAndCenter (Line start end ) = let width  = end.x - start.x
                                           in
                                             Line { x: -width, y: -height }
                                                  { x:  width, y:  height }
+doubleScaleAndCenter (Clipped pic _pt wdth hth) =
+  (Clipped (doubleScaleAndCenter <$> pic) origin (wdth*2.0) (hth*2.0))
 
 -- 3. (Medium) Write a function `shapeText` which extracts text from a `Shape`
 --    it should return `Maybe String`

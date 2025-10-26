@@ -3,7 +3,7 @@ module Data.Picture where
 import Prelude
 import Data.Foldable (foldl)
 import Data.Number (infinity)
-import Data.Number as Number
+import Data.Number as Num
 
 type Point =
   { x :: Number
@@ -19,6 +19,7 @@ data Shape
   | Rectangle Point Number Number
   | Line Point Point
   | Text Point String
+  | Clipped Picture Point Number Number
 
 showShape :: Shape -> String
 showShape (Circle c r) =
@@ -29,6 +30,19 @@ showShape (Line start end) =
   "Line [start: " <> showPoint start <> ", end: " <> showPoint end <> "]"
 showShape (Text loc text) =
   "Text [location: " <> showPoint loc <> ", text: " <> show text <> "]"
+showShape (Clipped p c w h) =
+  let left   = "Clipped [center: "
+            <> showPoint c
+            <> ", width: "
+            <> show w
+            <> ", height: "
+            <> show h
+      showPicture' :: Array Shape -> Array String
+      showPicture' = map showShape
+      middle = foldl (<>) "" $ ("\n\t"<>_) <$> showPicture' p
+      right  = "\n]"
+   in
+      left <> middle <> right
 
 exampleLine :: Shape
 exampleLine = Line p1 p2
@@ -48,10 +62,19 @@ origin = { x, y }
 -- origin = { x: 0.0, y: 0.0 }
 
 getCenter :: Shape -> Point
-getCenter (Circle c r) = c
-getCenter (Rectangle c w h) = c
+getCenter (Circle c _r) = c
+getCenter (Rectangle c _w _h) = c
 getCenter (Line s e) = (s + e) * {x: 0.5, y: 0.5}
-getCenter (Text loc text) = loc
+getCenter (Text loc _text) = loc
+getCenter clipped =
+  let bound = shapeBounds clipped
+      avgX  = (bound.top  + bound.bottom) / 2.0
+      avgY  = (bound.left + bound.right ) / 2.0
+   in
+      { x: avgX
+      , y: avgY
+      }
+
 
 type Picture = Array Shape
 
@@ -87,10 +110,10 @@ shapeBounds (Rectangle { x, y } w h) =
   , right:  x + w / 2.0
   }
 shapeBounds (Line p1 p2) =
-  { top:    Number.min p1.y p2.y
-  , left:   Number.min p1.x p2.x
-  , bottom: Number.max p1.y p2.y
-  , right:  Number.max p1.x p2.x
+  { top:    Num.min p1.y p2.y
+  , left:   Num.min p1.x p2.x
+  , bottom: Num.max p1.y p2.y
+  , right:  Num.max p1.x p2.x
   }
 shapeBounds (Text { x, y } _) =
   { top:    y
@@ -99,20 +122,24 @@ shapeBounds (Text { x, y } _) =
   , right:  x
   }
 
+shapeBounds (Clipped picture center width heighth) =
+  let clipBound = shapeBounds $ Rectangle center width heighth
+   in intersect clipBound $ foldl union emptyBounds $ shapeBounds <$> picture
+
 union :: Bounds -> Bounds -> Bounds
 union b1 b2 =
-  { top:    Number.min b1.top    b2.top
-  , left:   Number.min b1.left   b2.left
-  , bottom: Number.max b1.bottom b2.bottom
-  , right:  Number.max b1.right  b2.right
+  { top:    Num.min b1.top    b2.top
+  , left:   Num.min b1.left   b2.left
+  , bottom: Num.max b1.bottom b2.bottom
+  , right:  Num.max b1.right  b2.right
   }
 
 intersect :: Bounds -> Bounds -> Bounds
 intersect b1 b2 =
-  { top:    Number.max b1.top    b2.top
-  , left:   Number.max b1.left   b2.left
-  , bottom: Number.min b1.bottom b2.bottom
-  , right:  Number.min b1.right  b2.right
+  { top:    Num.max b1.top    b2.top
+  , left:   Num.max b1.left   b2.left
+  , bottom: Num.min b1.bottom b2.bottom
+  , right:  Num.min b1.right  b2.right
   }
 
 emptyBounds :: Bounds
