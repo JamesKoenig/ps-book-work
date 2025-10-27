@@ -2,7 +2,6 @@ module Test.Main where
 
 import Prelude
 import Test.Examples
-import Test.MySolutions
 import Data.Array (sort)
 import Data.Foldable (sequence_)
 import Data.Maybe (Maybe(..))
@@ -14,11 +13,13 @@ import Test.Unit.Assert (assert, assertFalse)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
 
+import Solutions.Group1 (isEven
+                        )
+
 main :: Effect Unit
 main =
   runTest do
     runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Recursion" do
       suite "Exercise - isEven" do
         test "0 is even" do
@@ -42,6 +43,7 @@ main =
         test "-19 is odd" do
           Assert.equal false
             $ isEven (-19)
+    {-  Move this block comment starting point to enable more tests
       suite "Exercise - countEven" do
         test "[] has none" do
           Assert.equal 0
