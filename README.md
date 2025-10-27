@@ -1,8 +1,8 @@
 # James K. Fork of Purescript-Book:
 
 This repository exists to organize my work as I go through the community fork
-of Phil Freeman's book _Purescript By Example_.  The only changes that will be
-made to the repo will be to the exercise sets.
+of Phil Freeman's book _Purescript By Example_.  The only changes (other than
+this readme note) that will be made to the repo will be to the exercise sets.
 
 Once I'm completed working through the book, the exercise work and any relevant
 notes will be collated and transferred to their own repo with the aim of being
