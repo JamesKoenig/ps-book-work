@@ -1,3 +1,15 @@
+# James K. Fork of Purescript-Book:
+
+This repository exists to organize my work as I go through the community fork
+of Phil Freeman's book _Purescript By Example_.  The only changes that will be
+made to the repo will be to the exercise sets.
+
+Once I'm completed working through the book, the exercise work and any relevant
+notes will be collated and transferred to their own repo with the aim of being
+useful as a code reference, and this clone will be unlisted from public view.
+
+The original README for the community fork follows:
+
 # PureScript by Example
 
 This repository contains a [community fork](https://github.com/purescript-contrib/purescript-book/) of _PureScript by Example_ by Phil Freeman, also known as "the PureScript book". This version differs from the original in that it has been updated so that the code and exercises work with up-to-date versions of the compiler, libraries, and tools. Some chapters have also been rewritten to showcase the latest features of the PureScript ecosystem.
