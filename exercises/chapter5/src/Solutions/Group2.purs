@@ -13,3 +13,15 @@ squared = map (\x -> x*x)
 --           numbers from an array of numbers.
 keepNonNegative :: Array Number -> Array Number
 keepNonNegative = filter (_>=0.0)
+
+-- 3. (Medium):
+--     - Define an infix synonym `<$?>` for `filter`.
+--     - write a `keepNonNegativeRewrite` function, which is the same as
+--       `keepNonNegative`, but replaces `filter` with `<$?>`
+--     - experiment with the precidence level and associativity of your operator
+--       in PSCi.
+
+infixl 4 filter as <$?>
+
+keepNonNegativeRewrite :: Array Number -> Array Number
+keepNonNegativeRewrite nums = (_>=0.0) <$?> nums
