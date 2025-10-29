@@ -17,6 +17,7 @@ import Solutions.Group1 (isEven
                         ,countEven
                         )
 import Solutions.Group2 (squared
+                        ,keepNonNegative
                         )
 
 main :: Effect Unit
@@ -67,7 +68,6 @@ main =
         test "Calculate squares" do
           Assert.equal [ 0.0, 1.0, 4.0, 9.0, 10000.0 ]
             $ squared [ 0.0, 1.0, 2.0, 3.0, 100.0 ]
-    {-  Move this block comment starting point to enable more tests
       suite "Exercise - keepNonNegative" do
         test "Do nothing with empty array" do
           Assert.equal []
@@ -75,6 +75,7 @@ main =
         test "Filter negative numbers" do
           Assert.equal [ 0.0, 2.0, 3.0 ]
             $ keepNonNegative [ -1.5, -1.0, 0.0, -0.1, 2.0, 3.0, -4.0 ]
+    {-  Move this block comment starting point to enable more tests
       suite "Exercise - <$?> infix operator for filter" do
         test "Define <$?> operator for filter" do
           Assert.equal [ 1, 1 ]
