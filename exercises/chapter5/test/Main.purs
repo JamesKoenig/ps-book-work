@@ -16,6 +16,8 @@ import Test.Unit.Main (runTest)
 import Solutions.Group1 (isEven
                         ,countEven
                         )
+import Solutions.Group2 (squared
+                        )
 
 main :: Effect Unit
 main =
@@ -57,7 +59,6 @@ main =
         test "[0, 1, 19, 20] has 2" do
           Assert.equal 2
             $ countEven [ 0, 1, 19, 20 ]
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Maps, Infix Operators, and Filtering" do
       suite "Exercise - squared" do
         test "Do nothing with empty array" do
@@ -66,6 +67,7 @@ main =
         test "Calculate squares" do
           Assert.equal [ 0.0, 1.0, 4.0, 9.0, 10000.0 ]
             $ squared [ 0.0, 1.0, 2.0, 3.0, 100.0 ]
+    {-  Move this block comment starting point to enable more tests
       suite "Exercise - keepNonNegative" do
         test "Do nothing with empty array" do
           Assert.equal []
