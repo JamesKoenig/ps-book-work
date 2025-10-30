@@ -11,6 +11,7 @@ You can edit this file as you like.
   , "enums"
   , "foldable-traversable"
   , "integers"
+  , "lists"
   , "maybe"
   , "prelude"
   , "strings"

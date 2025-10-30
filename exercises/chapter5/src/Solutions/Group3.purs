@@ -5,6 +5,10 @@ import Prelude
 import Test.Examples (factorsV3)
 import Control.Alternative (guard)
 import Data.Array ((..))
+import Data.List ((:)
+                 ,toUnfoldable
+                 ,List(Nil)
+                 )
 
 -- 1. (Easy) Write a function `isPrime`, which tests whether its integer
 --           argument is prime. _Hint_: Use the `factors` function.
@@ -49,3 +53,23 @@ triples n = do
   a <- (1..b)
   guard $ a*a + b*b == c*c
   pure [a,b,c]
+
+-- 4. (Difficult) Write a function `primeFactors` which produces the prime
+--                factorization of `n`, i.e., the array of prime integers whose
+--                product is `n`.  _Hint_: for an integer greater than 1, break
+--                the problem into two subproblems: finding the first factor
+--                and the remaining factors
+
+-- NB. Test module wants
+-- primeFactors 3  == [3]
+-- primeFactors 4  == [2,2],
+-- primeFactors 18 == [3,3,2]
+-- so, somehow, I feel like I have to do recursion on primeFactors n/p
+primeFactors :: Int -> Array Int
+primeFactors n =
+  (toUnfoldable $ factor' n n) :: Array Int
+  where  factor' :: Int -> Int -> List Int
+         factor' m k | k == 1                      = Nil
+                     | m `mod` k == 0 && isPrime k = k : (factor' (m/k) k )
+                     | k > m                       = factor' m m
+                     | otherwise                   = factor' m (k-1)
