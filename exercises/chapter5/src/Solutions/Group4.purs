@@ -1,6 +1,7 @@
 module Solutions.Group4 where
 
 import Data.Foldable (foldl)
+import Data.Array    (cons)
 
 import Prelude
 
@@ -31,4 +32,10 @@ fibTailRec n = fibh n 0 1
   where fibh :: Int -> Int -> Int -> Int
         fibh 0   acc _    = acc
         fibh rem acc next = fibh (rem-1) next (acc+next)
+
+-- 4. (Medium) Write `reverse` in terms of `foldl`.
+-- foldl :: forall (a:: Type) (b :: Type). (b -> a -> b) -> b -> Array a -> b
+-- (flip cons) :: forall (a :: Type). Array a -> a -> Array a
+reverse :: forall (a :: Type). Array a -> Array a
+reverse = foldl (flip cons) []
 
