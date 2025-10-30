@@ -26,6 +26,8 @@ import Solutions.Group3 (isPrime
                         ,triples
                         ,primeFactors
                         )
+import Solutions.Group4 (allTrue
+                        )
 
 main :: Effect Unit
 main =
@@ -148,13 +150,13 @@ main =
         primeFactorsTest 6 [3, 2]
         primeFactorsTest 18 [3, 3, 2]
         primeFactorsTest 210 [ 7, 5, 3, 2 ]
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Folds and Tail Recursion" do
       test "Exercise - allTrue" do
         assert "all elements true"
           $ allTrue [ true, true, true ]
         assertFalse "some elements false"
           $ allTrue [ true, false, true ]
+    {-  Move this block comment starting point to enable more tests
       suite "Exercise - fibTailRec" do
         test "Verify 0" do
           Assert.equal 0
