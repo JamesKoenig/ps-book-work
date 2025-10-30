@@ -4,7 +4,7 @@ import Prelude
 
 import Test.Examples (factorsV3)
 import Control.Alternative (guard)
-import Data.Array
+import Data.Array ((..))
 
 -- 1. (Easy) Write a function `isPrime`, which tests whether its integer
 --           argument is prime. _Hint_: Use the `factors` function.
@@ -30,7 +30,7 @@ cartesianProduct :: forall a. Array a -> Array a -> Array (Array a)
 cartesianProduct as bs = do
   a <- as
   b <- bs
-  pure $ [a,b]
+  pure [a,b]
 
 -- 3. (Medium) Write a function `triples :: Int -> Array (Array Int)`, which
 --             takes a number `n` and returns all Pythagorean  triples whose
@@ -40,10 +40,12 @@ cartesianProduct as bs = do
 --             `a*a + b*b = c*c`.  _Hint_: use the `guard` function in an array
 --             comprehension.
 
+-- https://github.com/purescript/documentation/blob/master/language/Differences-from-Haskell.md#array-comprehensions
+-- purescript does not have a special syntax for array comprehensions
 triples :: Int -> Array (Array Int)
 triples n = do
   c <- (1..n)
   b <- (1..c)
   a <- (1..b)
   guard $ a*a + b*b == c*c
-  pure $ [a,b,c]
+  pure [a,b,c]
