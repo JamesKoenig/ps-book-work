@@ -19,3 +19,16 @@ allTrue = foldl (&&) true
 --         its head is false but then the rest of it is true e.g.:
 --            `[false, true, true, true]`
 
+-- 3. (Medium) Write a function `fibTailRec` which is the same as `fib` but in
+--             tail recursive form.  _Hint_: use an accumulator parameter.
+
+-- I had to whiteboard this for longer than I'm willing to admit
+fibTailRec :: Int -> Int
+fibTailRec n = fibh n 0 1
+  --    rem  :: remaining steps
+  --    acc  :: accumulator, or current fibbonacci value
+  --    next :: next fibbonacci value
+  where fibh :: Int -> Int -> Int -> Int
+        fibh 0   acc _    = acc
+        fibh rem acc next = fibh (rem-1) next (acc+next)
+
