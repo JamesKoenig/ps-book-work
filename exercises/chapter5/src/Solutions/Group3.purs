@@ -3,8 +3,8 @@ module Solutions.Group3 where
 import Prelude
 
 import Test.Examples (factorsV3)
---import Data.Int    as Int
---import Data.Number as Num
+import Control.Alternative (guard)
+import Data.Array
 
 -- 1. (Easy) Write a function `isPrime`, which tests whether its integer
 --           argument is prime. _Hint_: Use the `factors` function.
@@ -31,3 +31,19 @@ cartesianProduct as bs = do
   a <- as
   b <- bs
   pure $ [a,b]
+
+-- 3. (Medium) Write a function `triples :: Int -> Array (Array Int)`, which
+--             takes a number `n` and returns all Pythagorean  triples whose
+--             components (the `a` `b`, and `c` values) are less than or equal
+--             to `n`.
+--             A *Pythagorean triple* is an array of numbers `[a,b,c]` such that
+--             `a*a + b*b = c*c`.  _Hint_: use the `guard` function in an array
+--             comprehension.
+
+triples :: Int -> Array (Array Int)
+triples n = do
+  c <- (1..n)
+  b <- (1..c)
+  a <- (1..b)
+  guard $ a*a + b*b == c*c
+  pure $ [a,b,c]
