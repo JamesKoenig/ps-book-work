@@ -31,6 +31,8 @@ import Solutions.Group4 (allTrue
                         ,reverse
                         )
 import Solutions.Group5 (onlyFiles
+                        ,whereIs
+                        ,largestSmallest
                         )
 
 main :: Effect Unit
@@ -193,7 +195,6 @@ main =
           ]
           $ map filename
           $ onlyFiles root
-    {-  Move this block comment starting point to enable more tests
       suite "Exercise - whereIs" do
         test "locates a file"
           $ Assert.equal (Just ("/bin/"))
@@ -218,6 +219,7 @@ main =
         testls "works for root" ["/etc/hosts", "/home/user/code/js/test.js"] root
         testls "works for a directory with one file" ["/etc/hosts"] oneFileDir
         testls "works for an empty directory" [] emptyDir
+    {-  Move this block comment starting point to enable more tests
 
 -}
 runChapterExamples :: TestSuite
