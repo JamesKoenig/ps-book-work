@@ -1,7 +1,6 @@
 module Test.Main where
 
 import Prelude
-import Test.MySolutions
 
 import Data.Array (elem)
 import Data.Foldable (foldMap, foldl, foldr)
@@ -13,16 +12,18 @@ import Test.Unit (TestSuite, suite, test)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
 
+import Solutions.Group1 (Point(..))
+
 main :: Effect Unit
 main =
   runTest do
     runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     suite "Show Me!" do
       test "Show Point" do
         Assert.equal "(1.0, 2.0)"
           $ show
           $ Point {x: 1.0, y: 2.0}
+    {-  Move this block comment starting point to enable more tests
     suite "Common Type Classes" do
       let cpx real imaginary = Complex {real, imaginary}
       suite "Show Complex" do
