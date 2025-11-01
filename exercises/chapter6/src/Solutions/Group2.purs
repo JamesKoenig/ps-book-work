@@ -47,3 +47,12 @@ instance complexSemiring :: Semiring Complex where
 
   one  = (Complex { real: 1.0, imaginary: 0.0 } )
 
+-- 4. (Easy) Define a `Ring` instance for `Complex`
+
+-- apparently you can just do `derive newtype instance Ring Complex`
+-- or, alternatively, you can just subtract the records from one another
+instance complexRing :: Ring Complex where
+  sub (Complex {real: a, imaginary: b} )
+      (Complex {real: c, imaginary: d} ) = Complex { real:      (a-c)
+                                                   , imaginary: (b-d)
+                                                   }
