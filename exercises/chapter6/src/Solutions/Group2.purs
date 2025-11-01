@@ -18,3 +18,10 @@ instance complexShow :: Show Complex where
     where sign :: Number -> String
           sign x | x < 0.0   = ""  -- show prepends a - on negatives
                  | otherwise = "+" -- but otherwise we need the +
+
+-- 2. (Easy) Define an `Eq` instance for `Complex`
+
+-- I should really do deriving since it's trivial
+instance complexEq :: Eq Complex where
+  eq (Complex z1) (Complex z2) = eq z1 z2
+
