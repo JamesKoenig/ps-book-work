@@ -25,3 +25,25 @@ instance complexShow :: Show Complex where
 instance complexEq :: Eq Complex where
   eq (Complex z1) (Complex z2) = eq z1 z2
 
+-- 3. (Medium) Define a `Semiring` instance for `Complex`.
+
+-- TODO: look at what `Data.Newtype` `wrap` and `over2` can do for this
+--       it's neat but I really wish the book went over stuff like it in its
+--       own chapter section.
+
+-- N.B. you can just add the records together for add
+instance complexSemiring :: Semiring Complex where
+  add (Complex {real: a, imaginary: b} )
+      (Complex {real: c, imaginary: d} ) = Complex { real:      (a+c)
+                                                   , imaginary: (b+d)
+                                                   }
+
+  mul (Complex {real: a, imaginary: b} )
+      (Complex {real: c, imaginary: d} ) = Complex { real:      (a*c)-(b*d)
+                                                   , imaginary: (a*d)+(c*b)
+                                                   }
+
+  zero = (Complex { real: 0.0, imaginary: 0.0 } )
+
+  one  = (Complex { real: 1.0, imaginary: 0.0 } )
+
