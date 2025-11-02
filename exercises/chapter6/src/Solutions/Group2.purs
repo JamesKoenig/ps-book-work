@@ -56,3 +56,18 @@ instance complexRing :: Ring Complex where
       (Complex {real: c, imaginary: d} ) = Complex { real:      (a-c)
                                                    , imaginary: (b-d)
                                                    }
+
+
+-- 5. (Medium) Derive (via `Generic`) a `Show` instance for `Shape`.  How does
+--             the amount of code written and `String` output compare to
+--             `showShape` from the previous chapter?
+-- See Data.Shape (in this chapter) for the solution to this, code-wise.
+-- Seeing as the output is kinda like:
+-- ```haskell
+--  > show (Circle (Point {x: 0.0, y: 0.0 }) 1.0 )
+--  "(Circle (0.0, 0.0) 1.0)"
+-- ```
+-- it's kinda way less readable than Chapter 4's:
+-- `"Circle [center: (0.0, 0.0), radius: 1.0]"`
+-- neither really fits the goal in this chapter of somethign that can be pasted
+-- back into PSCi or a `.purs` file.
