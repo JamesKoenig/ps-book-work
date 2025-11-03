@@ -25,3 +25,10 @@ derive instance nonEmptyEq :: Eq a => Eq (NonEmpty a)
 --             `Semigroup` instance for `Array`
 instance nonEmptySemigroup :: Semigroup (NonEmpty a) where
   append (NonEmpty x xs) (NonEmpty y ys) = NonEmpty x $ xs <> pure y <> ys
+
+-- 3. (Medium) Write a `Functor` instance for `NonEmpty`
+
+-- it helps that I did this a TON during the functor chapter of haskell from
+--  first principles.  Though in this case it's `map` instead of `fmap`
+instance nonEmptyFunctor :: Functor NonEmpty where
+  map f (NonEmpty x xs) = (NonEmpty (f x) (map f xs))
