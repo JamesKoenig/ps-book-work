@@ -3,6 +3,7 @@ module Solutions.Group3 where
 import Prelude
 
 import Data.Generic.Rep  (class Generic)
+import Data.Semigroup    (class Semigroup)
 import Data.Show.Generic (genericShow)
 
 data NonEmpty a = NonEmpty a (Array a)
@@ -21,3 +22,7 @@ derive instance nonEmptyEq :: Eq a => Eq (NonEmpty a)
 --instance nonEmptyEq :: Eq a => Eq (NonEmpty a) where
 --  eq (NonEmpty x xs) (NonEmpty y ys) = x == y && xs == ys
 
+-- 2. (Meidum) Write a `Semigroup` instance for `NonEmpty a` by reusing the
+--             `Semigroup` instance for `Array`
+instance nonEmptySemigroup :: Semigroup (NonEmpty a) where
+  append (NonEmpty x xs) (NonEmpty y ys) = NonEmpty x $ xs <> pure y <> ys
