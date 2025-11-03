@@ -32,3 +32,22 @@ instance nonEmptySemigroup :: Semigroup (NonEmpty a) where
 --  first principles.  Though in this case it's `map` instead of `fmap`
 instance nonEmptyFunctor :: Functor NonEmpty where
   map f (NonEmpty x xs) = (NonEmpty (f x) (map f xs))
+
+-- 4. (Medium) Given any type `a` with an instance of `Ord`, we can add a new
+--             "infinite" value that is greater than any other value:
+data Extended a = Infinite | Finite a
+--             Write an `Ord` instance for `Extended a` that reuses the `Ord`
+--             instance for `a`
+
+-- because `class Eq a <= Ord a` we have to define eq for `Extended` in order
+--  for it to have an Ord instance
+instance extendedEq :: Eq a => Eq (Extended a) where
+  eq Infinite   Infinite   = true
+  eq (Finite x) (Finite y) = eq x y
+  eq _          _          = false
+
+instance extndedOrd :: Ord a => Ord (Extended a) where
+  compare Infinite   Infinite   = EQ
+  compare Infinite   _          = GT
+  compare _          Infinite   = LT
+  compare (Finite x) (Finite y) = compare x y

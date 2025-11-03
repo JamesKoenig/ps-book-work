@@ -14,7 +14,9 @@ import Test.Unit.Main (runTest)
 
 import Solutions.Group1 (Point(..))
 import Solutions.Group2 (Complex(..))
-import Solutions.Group3 (NonEmpty(..))
+import Solutions.Group3 (NonEmpty(..)
+                        ,Extended(..)
+                        )
 import Data.Shape       (Shape(..))
 
 main :: Effect Unit
@@ -95,7 +97,6 @@ main =
           Assert.equal (NonEmpty 10 [ 20, 30 ])
             $ map (_ * 10)
             $ NonEmpty 1 [ 2, 3 ]
-    {-  Move this block comment starting point to enable more tests
       suite "Ord Extended" do
         -- Type annotation necessary to ensure there is an Ord instance for inner type (Int in this case)
         test "infinity equals infinity" do
@@ -120,6 +121,7 @@ main =
           Assert.equal LT
             $ compare (Finite 5)
             $ Finite 6
+    {-  Move this block comment starting point to enable more tests
       suite "Foldable NonEmpty" do
         test "foldl" do
           Assert.equal 123
