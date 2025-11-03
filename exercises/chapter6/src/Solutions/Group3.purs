@@ -3,7 +3,6 @@ module Solutions.Group3 where
 import Prelude
 
 import Data.Generic.Rep  (class Generic)
-import Data.Semigroup    (class Semigroup)
 import Data.Show.Generic (genericShow)
 
 data NonEmpty a = NonEmpty a (Array a)
