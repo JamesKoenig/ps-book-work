@@ -1,9 +1,5 @@
 module Solutions.Group1 where
 
-import Prelude
-
-newtype Point = Point { x :: Number, y :: Number }
-
 -- 1. (Easy) Define a `Show` instance for `Point`. Match the same output as the
 --           `showPoint` function from the previous chapter.  _Note_: Point is
 --           now a `newtype` (instead of a `type` synonym), which allows us to
@@ -19,10 +15,6 @@ newtype Point = Point { x :: Number, y :: Number }
 --    2. Chapters 4 and 5 were swapped, so instad of 'previous chapter' this
 --       exercise should say 'chapter 4' since `Data.Picture` and `Point` with
 --       it are from the 'Pattern Matching' chapter.
-showPoint :: Point -> String
-showPoint (Point { x, y }) =
-  "(" <> show x <> ", " <> show y <> ")"
 
-instance pointShow :: Show Point where
-  show = showPoint
-
+-- See `Data.Shape` (in this chapter) for the solution to this with regards
+--  to code.

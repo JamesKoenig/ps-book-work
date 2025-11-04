@@ -12,13 +12,15 @@ import Test.Unit (TestSuite, suite, test)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
 
-import Solutions.Group1 (Point(..))
+--Group 1's Point solution is in Data.Shape
 import Solutions.Group2 (Complex(..))
 import Solutions.Group3 (NonEmpty(..)
                         ,Extended(..)
                         ,OneMore(..)
                         )
-import Data.Shape       (Shape(..))
+import Data.Shape       (Shape(..)
+                        ,Point(..)
+                        )
 
 main :: Effect Unit
 main =

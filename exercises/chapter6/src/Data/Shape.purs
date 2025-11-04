@@ -1,16 +1,21 @@
 module Data.Shape where
 
-import Data.Show         (class Show)
+import Data.Show         (class Show
+                         ,show
+                         )
 import Data.Generic.Rep  (class Generic)
 import Data.Show.Generic (genericShow)
+import Data.Semigroup    ((<>))
 
--- this is marginally uncomfortable since the normal flow _feels_ like the
---    `Solutions` code should depend on the library code like `Data` etc
---    But in this case everything about `Point` is technically already contained
---    and finished with regards to the assignments, and the the added instance
---    behavior they're a part of
+-- Group 1, Exercise 1:
+newtype Point = Point { x :: Number, y :: Number }
 
-import Solutions.Group1 (Point)
+showPoint :: Point -> String
+showPoint (Point { x, y }) =
+  "(" <> show x <> ", " <> show y <> ")"
+
+instance pointShow :: Show Point where
+  show = showPoint
 
 data Shape
   = Circle    Point Number
