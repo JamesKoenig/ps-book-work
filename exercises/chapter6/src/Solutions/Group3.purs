@@ -9,6 +9,8 @@ import Data.Foldable     (class Foldable
                          ,foldMap
                          )
 import Data.Show.Generic (genericShow)
+import Data.Shape (Shape)
+import Data.Array (nubEq)
 
 data NonEmpty a = NonEmpty a (Array a)
 
@@ -85,3 +87,9 @@ instance oneMoreFoldable :: Foldable f => Foldable (OneMore f) where
   foldr f2 default (OneMore x fx) = x `f2` foldr f2 default fx
   foldl f2 default (OneMore x fx) = foldl f2 (default `f2` x) fx
   foldMap fm (OneMore x fx) = fm x <> foldMap fm fx
+
+-- 7. (Medium) Write a `dedupShapes :: Array Shape -> Array Shape` function that
+--             removes duplicate `Shape`s from an array using the nubEq function
+-- See `Data.Shape` (in this chapter) for the Eq instance
+dedupShapes :: Array Shape -> Array Shape
+dedupShapes = nubEq
