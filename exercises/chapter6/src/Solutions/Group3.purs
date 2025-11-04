@@ -69,3 +69,19 @@ instance nonEmptyFoldable :: Foldable NonEmpty where
   foldMap fm         (NonEmpty x xs) = append (fm x) $ foldMap fm xs
   -- alternatively:
 --foldMap fm (NonEmpty x xs) = fm x <> foldMap fm xs
+
+-- 6. (Difficult) Given a type constructor `f` which defines an ordered
+--                container (and so has a `Foldable` instance), we can create a
+--                new container type that includes an extra element at the
+--                front:
+data OneMore f a = OneMore a (f a)
+--                The container `OneMore f` also has an ordering, where the new
+--                element comes before any element of `f`.  Write a `Foldable`
+--                intsance for `OneMore f`.
+
+-- I'm not sure if I missed something but this seems to be exactly like 5
+--  with abstraction...  Maybe that's the point that's supposed to click
+instance oneMoreFoldable :: Foldable f => Foldable (OneMore f) where
+  foldr f2 default (OneMore x fx) = x `f2` foldr f2 default fx
+  foldl f2 default (OneMore x fx) = foldl f2 (default `f2` x) fx
+  foldMap fm (OneMore x fx) = fm x <> foldMap fm fx
