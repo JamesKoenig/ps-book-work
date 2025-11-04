@@ -3,6 +3,11 @@ module Solutions.Group3 where
 import Prelude
 
 import Data.Generic.Rep  (class Generic)
+import Data.Foldable     (class Foldable
+                         ,foldr
+                         ,foldl
+                         ,foldMap
+                         )
 import Data.Show.Generic (genericShow)
 
 data NonEmpty a = NonEmpty a (Array a)
@@ -51,3 +56,16 @@ instance extndedOrd :: Ord a => Ord (Extended a) where
   compare Infinite   _          = GT
   compare _          Infinite   = LT
   compare (Finite x) (Finite y) = compare x y
+
+-- 5. (Difficult) write a `Foldable` instance for `NonEmpty`.
+
+-- `Foldable` is `(Type -> Type) -> Constraint` so it takes `NonEmpty`
+instance nonEmptyFoldable :: Foldable NonEmpty where
+  -- here f2 denotes a binary function (a -> b -> b)
+  foldr   f2 default (NonEmpty x xs) = x `f2` foldr f2 default xs
+  -- here f2 denotes a binary function (b -> a -> b)
+  foldl   f2 default (NonEmpty x xs) = foldl f2 (f2 default x) xs
+  -- here fm denotes a unary function (a -> m)
+  foldMap fm         (NonEmpty x xs) = append (fm x) $ foldMap fm xs
+  -- alternatively:
+--foldMap fm (NonEmpty x xs) = fm x <> foldMap fm xs
