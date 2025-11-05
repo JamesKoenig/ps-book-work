@@ -148,3 +148,13 @@ instance ordShape :: Ord Shape where
   compare _  (Rectangle _ _ _)= GT
   compare (Circle _ _)      _ = GT
   compare _       (Circle _ _)= LT
+
+
+-- all of what I wrote up there is neat or whatever, but I should've just done:
+--derive instance ordPoint :: Ord Point
+--derive instance ordShape :: Ord Shape
+-- as per the document we referenced for the chapter:
+--For example, if you you'd like to be able to remove duplicates from an array
+--of an ADT using nub, you need an Eq and Ord instance. Rather than writing 
+--these manually, let the compiler do the work.
+--https://github.com/purescript/documentation/blob/master/guides/Type-Class-Deriving.md
