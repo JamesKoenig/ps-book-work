@@ -18,6 +18,7 @@ import Solutions.Group3 (NonEmpty(..)
                         ,Extended(..)
                         ,OneMore(..)
                         ,dedupShapes
+                        ,dedupShapesFast
                         )
 import Data.Shape       (Shape(..)
                         ,Point(..)
@@ -166,10 +167,10 @@ main =
       test "dedupShapes" do
         Assert.equal noDups
           $ dedupShapes withDups
-    {-  Move this block comment starting point to enable more tests
       test "dedupShapesFast" do
         Assert.equal noDups
           $ dedupShapesFast withDups
+    {-  Move this block comment starting point to enable more tests
     suite "Multi Parameter Type Classes " do
       test "unsafeMaximum" do
         Assert.equal 42
