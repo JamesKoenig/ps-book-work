@@ -12,7 +12,6 @@ You can edit this file as you like.
   , "lists"
   , "maybe"
   , "newtype"
-  , "numbers"
   , "partial"
   , "prelude"
   , "strings"
