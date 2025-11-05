@@ -10,7 +10,9 @@ import Data.Foldable     (class Foldable
                          )
 import Data.Show.Generic (genericShow)
 import Data.Shape (Shape)
-import Data.Array (nubEq)
+import Data.Array (nubEq
+                  ,nub
+                  )
 
 data NonEmpty a = NonEmpty a (Array a)
 
@@ -93,3 +95,10 @@ instance oneMoreFoldable :: Foldable f => Foldable (OneMore f) where
 -- See `Data.Shape` (in this chapter) for the Eq instance
 dedupShapes :: Array Shape -> Array Shape
 dedupShapes = nubEq
+
+-- 8. (Medium) Write a `dedupShapesFast` function which is the same as
+--             `dedupShapes`, but uses the more efficient `nub` function
+
+dedupShapesFast :: Array Shape -> Array Shape
+dedupShapesFast = nub
+
