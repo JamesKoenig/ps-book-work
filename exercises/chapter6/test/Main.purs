@@ -20,6 +20,8 @@ import Solutions.Group3 (NonEmpty(..)
                         ,dedupShapes
                         ,dedupShapesFast
                         )
+import Solutions.Group4 (unsafeMaximum
+                        )
 import Data.Shape       (Shape(..)
                         ,Point(..)
                         )
@@ -170,12 +172,12 @@ main =
       test "dedupShapesFast" do
         Assert.equal noDups
           $ dedupShapesFast withDups
-    {-  Move this block comment starting point to enable more tests
     suite "Multi Parameter Type Classes " do
       test "unsafeMaximum" do
         Assert.equal 42
           $ unsafePartial
           $ unsafeMaximum [ 1, 2, 42, 3 ]
+    {-  Move this block comment starting point to enable more tests
       let
         m1 = Multiply 3
         m2 = Multiply 4
