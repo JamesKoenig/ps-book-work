@@ -14,3 +14,22 @@ import Data.Foldable (maximum)
 unsafeMaximum :: Partial => Array Int -> Int
 unsafeMaximum = fromJust <<< (maximum :: Array Int -> Maybe Int)
 
+-- 2. (Medium) The `Action` class is a multi-parameter type class that defines
+--             an action of one type on another:
+class Monoid m <= Action m a where
+  act :: m -> a -> a
+
+-- laws:
+--  act mempty a = a
+--  act (m1 <> m2) = act m1 (act m2 a)
+
+newtype Multiply = Multiply Int
+
+instance Semigroup Multiply where
+  append (Multiply n) (Multiply m) = Multiply (n * m)
+
+instance Monoid Multiply where
+  mempty = Multiply 1
+
+instance Action Multiply Int where
+  act (Multiply x) y = x*y
