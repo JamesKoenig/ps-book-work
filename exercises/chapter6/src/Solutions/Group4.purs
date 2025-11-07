@@ -6,6 +6,8 @@ import Data.Maybe    (Maybe
                      ,fromJust
                      )
 import Data.Foldable (maximum)
+import Data.Monoid   (power
+                     )
 -- 1. (Medium) Define a partial function:
 --                `unsafeMaximum :: Partial => Array Int -> Int`
 --             that finds the maximum of a non-empty array of integers.  Test
@@ -33,3 +35,10 @@ instance Monoid Multiply where
 
 instance Action Multiply Int where
   act (Multiply x) y = x*y
+
+-- 4. (Medium) Write an `Action` instance that repeats an input string some
+--             number of times
+-- Data.Monoid.power :: forall (m :: Type). Monoid m => m -> Int -> a
+instance Action Multiply String where
+  act (Multiply x) y = power y x
+
