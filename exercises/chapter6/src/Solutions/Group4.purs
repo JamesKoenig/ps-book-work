@@ -42,3 +42,8 @@ instance Action Multiply Int where
 instance Action Multiply String where
   act (Multiply x) y = power y x
 
+-- 5. (Medium) Write an instance `Action m a => Action m (Array a), where the
+--             action on arrays is defined by acting on each array element
+--             independently
+instance Action m a => Action m (Array a) where
+  act m xs = (act m) <$> xs
