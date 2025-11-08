@@ -225,7 +225,6 @@ main =
                 got = act m1 a
             Assert.assert ("expected one of " <> show expectOneOf <> ", got " <> show got)
               $ elem got expectOneOf
-    {-  Move this block comment starting point to enable more tests
         suite "Action Multiply (Array String)" do
           let
             a = [ "foo", "bar", "baz" ]
@@ -242,6 +241,7 @@ main =
               , "bazbazbaz"
               ]
               $ act m1 a
+    {-  Move this block comment starting point to enable more tests
       suite "Action m (Self m)" do
         let
           a = Self m1

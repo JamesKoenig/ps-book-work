@@ -45,5 +45,7 @@ instance Action Multiply String where
 -- 5. (Medium) Write an instance `Action m a => Action m (Array a), where the
 --             action on arrays is defined by acting on each array element
 --             independently
-instance Action m a => Action m (Array a) where
-  act m xs = (act m) <$> xs
+
+instance (Functor f, Action m a) => Action m (f a) where
+  act m fx = (act m) <$> fx
+
