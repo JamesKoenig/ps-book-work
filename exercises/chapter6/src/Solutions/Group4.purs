@@ -46,6 +46,21 @@ instance Action Multiply String where
 --             action on arrays is defined by acting on each array element
 --             independently
 
-instance (Functor f, Action m a) => Action m (f a) where
+instance Action m a => Action m (Array a) where
   act m fx = (act m) <$> fx
 
+--instance (Functor f, Action m a) => Action m (f a) where
+--  act m fx = (act m) <$> fx
+
+-- 6. (Difficult) Given the following newtype, write an instance for
+--                `Action m (Self m)` where the monoid acts on itself using
+--                `append`
+newtype Self m = Self m
+
+derive newtype instance Eq a => Eq (Self a)
+derive newtype instance Show a => Show (Self a)
+derive newtype instance Eq Multiply
+derive newtype instance Show Multiply
+
+instance Monoid m => Action m (Self m) where
+  act m (Self n) = Self $ m <> n
