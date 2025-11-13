@@ -26,6 +26,7 @@ import Solutions.Group4 (unsafeMaximum
                         ,Self(..)
                         )
 import Solutions.Group5 (arrayHasDuplicates
+                        ,Hour(..)
                         )
 import Data.Shape       (Shape(..)
                         ,Point(..)
@@ -267,7 +268,6 @@ main =
         test "only hash dupe" do
           Assert.equal false
             $ arrayHasDuplicates [ 65536, 1, 2, 3 ]
-    {-  Move this block comment starting point to enable more tests
       suite "Hashable Hour" do
         test "match" do
           Assert.equal (hash $ Hour 1)
@@ -278,7 +278,7 @@ main =
             $ Assert.equal (hash $ Hour 1)
             $ hash
             $ Hour 14
-
+    {-  Move this block comment starting point to enable more tests
 -}
 runChapterExamples :: TestSuite
 runChapterExamples =
