@@ -41,3 +41,30 @@ toHourInt (Hour x) =  x `mod` 12
 
 instance hashableHour :: Hashable Hour where
   hash = hash <<< toHourInt
+
+-- #the law is that a == b implies (hash a) == (hash b)#
+-- Assume law holds for Hashable Int.
+-- Via hashableHour:
+--    (hash :: Hour -> HashCode) = (hash :: Int -> HashCode) <<< toHourInt
+-- Via applying composition e.g. h = (f <<< g) => h x = f (g x)
+--     hash (Hour x) = (hash :: Int -> HashCode) (toHourInt (Hour x))
+-- Via definition of toHourInt:
+--     hash (Hour x) = hash (x `mod` 12)
+-- Let x,y be Ints and let m = x `mod` 12, n = y `mod` 12
+--(N.B. n,m are also Ints)
+-- Applying m:
+--     hash (Hour x) = hash m
+--(N.B. left is hash :: Hour -> HashCode, right is hash :: Int -> HashCode)
+-- using the above, and the equivalent for n:
+--     (hash (Hour x)) == (hash (Hour y)) = hash m == hash n      -- Lemma 1
+-- On the other hand
+--     (Hour x) == (Hour y) = x `mod` 12 == y `mod` 12 --via Eq Hour
+-- Applying m,n's definitions:
+--     (Hour x) == (Hour y) = m == n                              -- Lemma 2
+-- Note that as m,n are both ints so the law a == b => (hash a) == (hash b)
+-- has already been assumed to start with.  This means as:
+--     (Hour x) == (Hour y) => hash (Hour x) == hash (Hour y)
+-- can be shown with m,n via Lemma 1 & 2 above as:
+--     m == n => (hash m) == (hash n)
+-- which is equivalent to the Hash Int instance of the law for m,n
+-- (done)
