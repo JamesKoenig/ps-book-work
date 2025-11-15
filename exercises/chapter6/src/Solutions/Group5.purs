@@ -90,4 +90,7 @@ instance hashableHour :: Hashable Hour where
 -- codes.  Assume the law holds for A such that x == y  => hx == hy
 -- and let a == b, then:
 --    (hash (Just a)) == (hash (Just b)) =
---        (73 + 51*hx) `mod` 65535  == (73 + 51*hy) `mod` 65535
+--        (73 + 51*hx) `mod` 65535 == (73 + 51*hy) `mod` 65535
+-- However from our assumption of Hashable law for A, we know hx == hy so:
+--        (73 + 51*hx) `mod` 65536 == (73 + 51*hx) `mod` 65535
+-- Which shows that a == b => (hash a) == (hash b)
