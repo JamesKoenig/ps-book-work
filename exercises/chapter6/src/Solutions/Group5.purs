@@ -68,3 +68,26 @@ instance hashableHour :: Hashable Hour where
 --     m == n => (hash m) == (hash n)
 -- which is equivalent to the Hash Int instance of the law for m,n
 -- (done)
+
+
+-- 4. (Difficult) Prove the type class laws for the `Hashable` instances for
+--                `Maybe`, `Either`, and `Tuple`
+
+-- pt1. Maybe
+-- The law is that a == b => (hash a) == (hash b) ( => being implies )
+-- Assume the law holds for (Hashable a)
+-- Via Nothing pattern of hash:
+--    hash Nothing = hashCode 0
+-- This means Nothing == Nothing => 0 == 0 which is true trivially
+-- Via (Just a) pattern of hash:
+--    hash (Just a) = hashCode 1 `combineHashes` hash a
+-- Let `h_a` be the result of `hash a`
+-- Applying definition of combineHashes:
+--    hashcode 1 `combineHashes` h_a = hashCode (73*1 + 51*h_a)
+-- applying hashCode:
+--    hashCode (73+51*h_a) = (73 + 51*h_a) `mod` 65535
+-- let x,y \in A where A is an instance of Hashable, & let hx,hy be their hash
+-- codes.  Assume the law holds for A such that x == y  => hx == hy
+-- and let a == b, then:
+--    (hash (Just a)) == (hash (Just b)) =
+--        (73 + 51*hx) `mod` 65535  == (73 + 51*hy) `mod` 65535
