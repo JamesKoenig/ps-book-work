@@ -94,3 +94,22 @@ instance hashableHour :: Hashable Hour where
 -- However from our assumption of Hashable law for A, we know hx == hy so:
 --        (73 + 51*hx) `mod` 65536 == (73 + 51*hx) `mod` 65535
 -- Which shows that a == b => (hash a) == (hash b)
+
+-- pt2. `Either`
+-- The law is that `a == b` implies `(hash a) == (hash b)`
+-- Assume the law holds for the `Hashable` types `L,R`
+-- in the case of `Left`:
+--    hash (Left a) = hashCode 0 `combineHashes` hash a
+-- Applying hashCode 0 = 0, and combineHashes definition:
+--    hash (Left a) = (73*0 + 51 * (hash a)) `mod` 65535
+-- Simplifying:
+--    hash (Left a) = (51*(hash a)) `mod` 65535
+-- Now, by derived eq for `Either`:
+--    (Left a) == (Left b) = a == b
+-- By assumed law for Left hashable type:
+--  `a == b` implies `hash a = hash b`
+-- so
+--  (Left a == Left b) implies hash (Left a) = (51*(hash a)) `mod` 65535
+--                                           = (51*(hash b)) `mod` 65535
+--                                           = hash (Left b)
+-- Which is to say (Left a) == (Left b) implies hash (Left a) == hash (Left b)
