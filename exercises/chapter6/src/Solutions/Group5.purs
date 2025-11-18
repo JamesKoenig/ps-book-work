@@ -113,3 +113,19 @@ instance hashableHour :: Hashable Hour where
 --                                           = (51*(hash b)) `mod` 65535
 --                                           = hash (Left b)
 -- Which is to say (Left a) == (Left b) implies hash (Left a) == hash (Left b)
+-- in the case of `Right`:
+--   ``hash (Right b) = hashCode 1 `combineHashes` hash b``
+-- Applying `hashCode 1 = 0` and `combineHashes` definition:
+--   ``hash (Right b) = (73*1 + 51 * (hash b)) `mod` 65535
+-- Via derived `instance Eq Either`:
+--   ``(Right a) == (Right b) = a == b
+-- by assumed law for Right hashable type
+-- `a == b` implies `hash a = hash b`
+-- so
+-- `(Right a == Right b)` implies hash (Right a) = (71+51*(hash a)) `mod` 65535
+--                                               = (71+51*(hash b)) `mod` 65535
+--                                               = hash (Right b)
+-- Which is to say (Right a) == (Right b)
+--   implies hash (Right a) == hash (Right b)
+-- So the law holds for (Hashable a, Hashable b) => Hashable (Either a b)
+-- when a, b follow the law themselves
