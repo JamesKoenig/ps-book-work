@@ -129,3 +129,18 @@ instance hashableHour :: Hashable Hour where
 --   implies hash (Right a) == hash (Right b)
 -- So the law holds for (Hashable a, Hashable b) => Hashable (Either a b)
 -- when a, b follow the law themselves
+
+-- pt3. `Tuple`
+-- Assume that the law holds for the contained types a,b required by the tuple
+-- instance.
+-- want to show `(Tuple a b) == (Tuple c d)` implies
+--    `hash (Tuple a b) == hash (Tuple c d)`
+-- Definition of Hashable Tuple instance:
+--    ``hash (Tuple a b) = hash a `combineHashes` hash b``
+-- if (Tuple a b) == (Tuple c d) then a == c, b == d, and given the assumed law
+-- then hash a == hash c, hash b == hash d, so we can substitute:
+--    ``hash (Tuple c d) = hash c `combineHashes` hash d``
+-- via hash a == hash c, hash b == hash d:
+--    ``hash (Tuple c d) = hash a `combineHashes` hash b``
+-- which is the same as `hash (Tuple a b)`, which means:
+--  `(Tuple a b) == (Tuple c d)` implies `hash (Tuple a b) == hash (Tuple c d)`
