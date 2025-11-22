@@ -57,3 +57,15 @@ divApply :: forall (@f :: Type -> Type) (@a :: Type).
             Apply f => EuclideanRing a =>
             f a -> f a -> f a
 divApply x y = (/) <$> x <*> y
+
+-- 3. (Difficult) Write a function `combineMaybe` which has type
+--                `forall a f. Applicative f => Maybe (f a) -> f (Maybe a)`.
+--                this function takes an optional computation with side effects
+--                and returns a side-effecting computation with an optional
+--                result.
+
+-- this is like `combineList` in the chapter discussion (but apparently simpler)
+combineMaybe :: forall a f. Applicative f => Maybe (f a) -> f (Maybe a)
+combineMaybe Nothing   = pure Nothing
+combineMaybe (Just fx) = Just <$> fx
+
