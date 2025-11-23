@@ -11,3 +11,9 @@ import Data.String.Regex.Unsafe (unsafeRegex)
 stateRegex :: Regex
 stateRegex = unsafeRegex "^[a-zA-Z]{2}$" noFlags
 
+-- 2. (Medium) Write a regular expression `nonEmptyRegex :: Regex` to check that
+--             a string is not entirely whitespace.
+
+-- I wanted to use `regex` on this but that returns `Either String Regex`
+nonEmptyRegex :: Regex
+nonEmptyRegex = unsafeRegex "\\S+" noFlags
