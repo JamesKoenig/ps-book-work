@@ -33,6 +33,8 @@ import Solutions.Group2 (stateRegex
                         ,nonEmptyRegex
                         ,validateAddressImproved
                         )
+import Solutions.Group3 (Tree(..)
+                        )
 
 main :: Effect Unit
 main =
@@ -150,7 +152,6 @@ main =
           Assert.equal (invalid [ "Field 'State' did not match the required format" ])
             $ validateAddressImproved
             $ address "22 Fake St" "Fake City" "C3"
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Traversable Functors" do
       suite "Exercise - Tree Show and Eq" do
         let
@@ -164,6 +165,7 @@ main =
         test "Eq - Not Equal" do
           Assert.expectFailure "not equal"
             $ Assert.equal tree Leaf
+    {-  Move this block comment starting point to enable more tests
       let
         leaf :: forall a. a -> Tree a
         leaf x = Branch Leaf x Leaf
