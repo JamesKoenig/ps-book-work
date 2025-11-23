@@ -29,6 +29,8 @@ import Solutions.Group1 (addMaybe
                         ,divApply
                         ,combineMaybe
                         )
+import Solutions.Group2 (stateRegex
+                        )
 
 main :: Effect Unit
 main =
@@ -105,7 +107,6 @@ main =
           test "Nothing" do
             Assert.equal (Nothing : Nil)
               $ combineMaybe (Nothing :: Maybe (List Char))
-    {-  Move this block comment starting point to enable more tests
     suite "Exercise Group - Applicative Validation" do
       suite "Exercise - stateRegex" do
         let
@@ -117,6 +118,7 @@ main =
         stateTest "CAA" false
         stateTest "C3" false
         stateTest "C$" false
+    {-  Move this block comment starting point to enable more tests
       suite "Exercise - nonEmptyRegex" do
         let
           nonEmptyTest str exp = test str do
