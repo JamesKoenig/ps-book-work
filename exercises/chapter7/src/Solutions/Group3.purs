@@ -7,6 +7,8 @@ import Data.Foldable     (class Foldable
                          ,foldr
                          ,foldl
                          ,foldMap
+                         ,foldlDefault
+                         ,foldrDefault
                          )
 
 -- 1. (Easy) Write an `Eq` and `Show` instance for the following binary tree
@@ -37,7 +39,8 @@ instance Foldable Tree where
   foldMap fm Leaf = mempty
   foldMap fm (Branch left x right) =
     (foldMap fm left) <> (fm x) <> (foldMap fm right)
-  foldr f2 default _ = default
-  foldl f2 default _ = default
-  --foldr f2 default Leaf = default
-  --foldr f2 default (Branch left x right) =
+
+  -- we can do manual versions of this later, technically foldMap+defaults are
+  -- sufficient to define folds for now
+  foldl f = foldlDefault f
+  foldr f = foldrDefault f
