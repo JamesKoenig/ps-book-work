@@ -66,3 +66,17 @@ instance Traversable Tree where
                                             <*> sequence right
   -- add sequenceDefault to the Data.Traversable imports to use this
   --sequence famb = sequenceDefault famb
+
+-- 3. (Medium) Write a function:
+-- ```
+traversePreOrder :: forall a m b. Applicative m => (a -> m b)
+                                                -> Tree a
+                                                -> m (Tree b)
+-- ```
+--             that performs a pre-order traversal of the tree
+traversePreOrder _ Leaf = pure Leaf
+traversePreOrder famb (Branch left val right) = ado
+  v' <- famb val
+  l' <- traversePreOrder famb left
+  r' <- traversePreOrder famb right
+  in (Branch l' v' r')

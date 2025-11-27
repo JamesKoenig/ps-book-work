@@ -34,6 +34,7 @@ import Solutions.Group2 (stateRegex
                         ,validateAddressImproved
                         )
 import Solutions.Group3 (Tree(..)
+                        ,traversePreOrder
                         )
 
 main :: Effect Unit
@@ -207,13 +208,13 @@ main =
             $ runWriter
             $ traverse (\x -> tell [ x ])
             $ Branch (Branch (leaf 1) 2 (leaf 3)) 4 (Branch (leaf 5) 6 (leaf 7))
-    {-  Move this block comment starting point to enable more tests
       test "Exercise - traversePreOrder" do
         Assert.equal (1 .. 7)
           $ snd
           $ runWriter
           $ traversePreOrder (\x -> tell [ x ])
           $ Branch (Branch (leaf 3) 2 (leaf 4)) 1 (Branch (leaf 6) 5 (leaf 7))
+    {-  Move this block comment starting point to enable more tests
       test "Exercise - traversePostOrder" do
         Assert.equal (1 .. 7)
           $ snd
