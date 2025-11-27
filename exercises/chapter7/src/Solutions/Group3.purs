@@ -4,8 +4,6 @@ import Prelude
 import Data.Generic.Rep  (class Generic)
 import Data.Show.Generic (genericShow)
 import Data.Foldable     (class Foldable
-                         ,foldr
-                         ,foldl
                          ,foldMap
                          ,foldlDefault
                          ,foldrDefault
@@ -30,7 +28,7 @@ instance showTree :: Show a => Show (Tree a) where
 
 -- Traverasable requires Functor and Foldable constraints
 instance Functor Tree where
-  map f Leaf = Leaf
+  map _ Leaf = Leaf
   map f (Branch left val right) = Branch (f <$> left) (f val) (f <$> right)
 
 -- we did this before in Ch6 Grp3 Ex5 & Ex6-- that was hard
@@ -40,7 +38,7 @@ instance Functor Tree where
 --  foldMap :: forall a m. Monoid m => (a -> m) -> f a -> m
 instance Foldable Tree where
 -- get the easiest one oout of the way
-  foldMap fm Leaf = mempty
+  foldMap _  Leaf = mempty
   foldMap fm (Branch left x right) =
     (foldMap fm left) <> (fm x) <> (foldMap fm right)
 
