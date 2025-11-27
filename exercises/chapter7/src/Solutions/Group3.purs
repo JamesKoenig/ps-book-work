@@ -92,3 +92,9 @@ traversePostOrder famb (Branch left val right) = ado
   r' <- traversePostOrder famb right
   v' <- famb val
   in (Branch l' v' r')
+
+-- alternatively:
+--traversePostOrder f (Branch l v r) =
+--  (\l r v -> Branch l v r) <$> traversePostOrder f l
+--                           <*> traversePostOrder f r
+--                           <*> f v
