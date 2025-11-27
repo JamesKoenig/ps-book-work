@@ -10,6 +10,10 @@ import Data.Foldable     (class Foldable
                          ,foldlDefault
                          ,foldrDefault
                          )
+import Data.Traversable (class Traversable
+                        ,traverse
+                        ,sequenceDefault
+                        )
 
 -- 1. (Easy) Write an `Eq` and `Show` instance for the following binary tree
 --           data structure
@@ -44,3 +48,15 @@ instance Foldable Tree where
   -- sufficient to define folds for now
   foldl f = foldlDefault f
   foldr f = foldrDefault f
+
+-- traverse :: forall a b m. Applicative m => (a -> m b) -> Tree a -> m (Tree b)
+instance Traversable Tree where
+  traverse _ Leaf = pure Leaf
+  traverse famb (Branch left val right) = ado
+    l' <- traverse famb left
+    v' <- famb val
+    r' <- traverse famb right
+  in (Branch l' v' r')
+
+  -- sequence :: forall a m.   Applicative m => Tree (m a) -> m (Tree a)
+  sequence famb = sequenceDefault famb
