@@ -10,7 +10,7 @@ import Data.Foldable     (class Foldable
                          )
 import Data.Traversable (class Traversable
                         ,traverse
-                        ,sequenceDefault
+                        ,sequence
                         )
 
 -- 1. (Easy) Write an `Eq` and `Show` instance for the following binary tree
@@ -55,6 +55,14 @@ instance Traversable Tree where
     v' <- famb val
     r' <- traverse famb right
   in (Branch l' v' r')
+  --traverse f (Branch l v r) = Branch <$> traverse f l
+  --                                   <*> f v
+  --                                   <*> traverse f r
 
   -- sequence :: forall a m.   Applicative m => Tree (m a) -> m (Tree a)
-  sequence famb = sequenceDefault famb
+  sequence Leaf = pure Leaf
+  sequence (Branch left val right) = Branch <$> sequence left
+                                            <*> val
+                                            <*> sequence right
+  -- add sequenceDefault to the Data.Traversable imports to use this
+  --sequence famb = sequenceDefault famb
