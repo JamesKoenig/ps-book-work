@@ -80,3 +80,15 @@ traversePreOrder famb (Branch left val right) = ado
   l' <- traversePreOrder famb left
   r' <- traversePreOrder famb right
   in (Branch l' v' r')
+
+-- 4. (Medium) Write a function `traversePostOrder` that peforms post-order
+--             traversal of the tree where effects are executed left-right-foot
+traversePostOrder :: forall a m b. Applicative m => (a -> m b)
+                                                 -> Tree a
+                                                 -> m (Tree b)
+traversePostOrder _ Leaf = pure Leaf
+traversePostOrder famb (Branch left val right) = ado
+  l' <- traversePostOrder famb left
+  r' <- traversePostOrder famb right
+  v' <- famb val
+  in (Branch l' v' r')
