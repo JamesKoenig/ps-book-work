@@ -36,6 +36,8 @@ import Solutions.Group2 (stateRegex
 import Solutions.Group3 (Tree(..)
                         ,traversePreOrder
                         ,traversePostOrder
+                        ,sequenceUsingTraverse
+                        ,traverseUsingSequence
                         )
 
 main :: Effect Unit
@@ -245,6 +247,7 @@ main =
           Assert.equal (invalid ([ "Field 'City' cannot be empty" ]))
             $ validatePersonOptionalAddress
             $ examplePerson { homeAddress = (Just $ address "123 Fake St." "" "CA") }
+            -}
       suite "Exercise - sequenceUsingTraverse" do
         test "Just" do
           Assert.equal (Just [ 1, 2 ])
@@ -259,7 +262,7 @@ main =
         test "Nothing" do
           Assert.equal Nothing
             $ traverseUsingSequence fromNumber [ 1.0, 2.7 ]
-
+{-
 -}
 runChapterExamples :: TestSuite
 runChapterExamples =

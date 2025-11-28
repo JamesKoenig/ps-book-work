@@ -98,3 +98,21 @@ traversePostOrder famb (Branch left val right) = ado
 --  (\l r v -> Branch l v r) <$> traversePostOrder f l
 --                           <*> traversePostOrder f r
 --                           <*> f v
+
+-- 5. (Medium) Create a new version of the `Person` type where the `homeAddress`
+--             field is optional (using `Maybe`) then write a new version of
+--             `validatePerson` (renamed as `validatePersonOptionalAddress`) to
+--             validate this new `Person`.
+
+-- Skipping for now.... TODO FIXME DO.
+
+-- 6. (Difficult) Write a function `sequenceUsingTraverse` which behaves like
+--                `sequence`, but is written in terms of `traverse`.
+
+-- I actaully did this earlier before defining `sequence` for `Traversable Tree` 
+sequenceUsingTraverse t = traverse (\x -> x) t -- alternatively define id
+
+
+-- 7 (Difficult) Write a function `traverseUsingSequence` which behaves like
+--               `traverse`, but is written in terms of `sequence`
+traverseUsingSequence f t = sequence $ f <$> t
