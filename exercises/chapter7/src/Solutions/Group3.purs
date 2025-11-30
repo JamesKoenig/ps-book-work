@@ -12,6 +12,19 @@ import Data.Traversable (class Traversable
                         ,traverse
                         ,sequence
                         )
+import Data.Maybe       (Maybe(..))
+import Data.AddressBook (Address
+                        ,PhoneNumber
+                        ,phoneNumber
+                        ,address
+                        ,PhoneType(WorkPhone,CellPhone)
+                        )
+import Data.Validation.Semigroup (V)
+import Data.AddressBook.Validation (nonEmpty
+                                   ,Errors
+                                   ,validateAddress
+                                   ,validatePhoneNumbers
+                                   )
 
 -- 1. (Easy) Write an `Eq` and `Show` instance for the following binary tree
 --           data structure
@@ -104,7 +117,36 @@ traversePostOrder famb (Branch left val right) = ado
 --             `validatePerson` (renamed as `validatePersonOptionalAddress`) to
 --             validate this new `Person`.
 
--- Skipping for now.... TODO FIXME DO.
+type AlternatePerson = { firstName   :: String
+                       , lastName    :: String
+                       , homeAddress :: Maybe Address
+                       , phones      :: Array PhoneNumber
+                       }
+
+alternatePerson :: String -> String -> Maybe Address
+                   -> Array PhoneNumber -> AlternatePerson
+alternatePerson firstName lastName homeAddress phones = { firstName
+                                                        , lastName
+                                                        , homeAddress
+                                                        , phones
+                                                        }
+
+sampleAltPerson :: AlternatePerson
+sampleAltPerson = alternatePerson "John" "Smith"
+                  (Just $ address "123 Sample Street" "San Jose" "CA" )
+                  [(phoneNumber CellPhone "555-555-5555")
+                  ,(phoneNumber WorkPhone "555-555-5000")
+                  ]
+
+validateMaybeAddress :: Maybe Address -> V Errors (Maybe Address)
+validateMaybeAddress ma = sequence $ validateAddress <$> ma
+
+validatePersonOptionalAddress :: AlternatePerson -> V Errors AlternatePerson
+validatePersonOptionalAddress ap =
+  alternatePerson <$> nonEmpty "First Name"                ap.firstName
+                  <*> nonEmpty "Last Name"                 ap.lastName
+                  <*> validateMaybeAddress                 ap.homeAddress
+                  <*> validatePhoneNumbers "Phone Numbers" ap.phones
 
 -- 6. (Difficult) Write a function `sequenceUsingTraverse` which behaves like
 --                `sequence`, but is written in terms of `traverse`.

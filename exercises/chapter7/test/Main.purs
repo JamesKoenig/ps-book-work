@@ -38,6 +38,7 @@ import Solutions.Group3 (Tree(..)
                         ,traversePostOrder
                         ,sequenceUsingTraverse
                         ,traverseUsingSequence
+                        ,validatePersonOptionalAddress
                         )
 
 main :: Effect Unit
@@ -223,7 +224,6 @@ main =
           $ runWriter
           $ traversePostOrder (\x -> tell [ x ])
           $ Branch (Branch (leaf 1) 3 (leaf 2)) 7 (Branch (leaf 4) 6 (leaf 5))
-    {-  Move this block comment starting point to enable more tests
       suite "Exercise - validatePersonOptionalAddress" do
         let
           examplePerson =
@@ -247,7 +247,6 @@ main =
           Assert.equal (invalid ([ "Field 'City' cannot be empty" ]))
             $ validatePersonOptionalAddress
             $ examplePerson { homeAddress = (Just $ address "123 Fake St." "" "CA") }
-            -}
       suite "Exercise - sequenceUsingTraverse" do
         test "Just" do
           Assert.equal (Just [ 1, 2 ])
@@ -262,7 +261,7 @@ main =
         test "Nothing" do
           Assert.equal Nothing
             $ traverseUsingSequence fromNumber [ 1.0, 2.7 ]
-{-
+    {-  Move this block comment starting point to enable more tests
 -}
 runChapterExamples :: TestSuite
 runChapterExamples =
