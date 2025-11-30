@@ -138,14 +138,11 @@ sampleAltPerson = alternatePerson "John" "Smith"
                   ,(phoneNumber WorkPhone "555-555-5000")
                   ]
 
-validateMaybeAddress :: Maybe Address -> V Errors (Maybe Address)
-validateMaybeAddress ma = sequence $ validateAddress <$> ma
-
 validatePersonOptionalAddress :: AlternatePerson -> V Errors AlternatePerson
 validatePersonOptionalAddress ap =
   alternatePerson <$> nonEmpty "First Name"                ap.firstName
                   <*> nonEmpty "Last Name"                 ap.lastName
-                  <*> validateMaybeAddress                 ap.homeAddress
+                  <*> traverse validateAddress             ap.homeAddress
                   <*> validatePhoneNumbers "Phone Numbers" ap.phones
 
 -- 6. (Difficult) Write a function `sequenceUsingTraverse` which behaves like
