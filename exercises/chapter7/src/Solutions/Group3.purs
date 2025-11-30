@@ -151,10 +151,22 @@ validatePersonOptionalAddress ap =
 -- 6. (Difficult) Write a function `sequenceUsingTraverse` which behaves like
 --                `sequence`, but is written in terms of `traverse`.
 
--- I actaully did this earlier before defining `sequence` for `Traversable Tree` 
+-- I actaully did this earlier before defining `sequence` for `Traversable Tree`
+sequenceUsingTraverse :: forall (@t :: Type -> Type)
+                                ( a :: Type)
+                                ( m :: Type -> Type).
+                                  Traversable t => Applicative m =>
+                                                  t (m a) -> m (t a)
 sequenceUsingTraverse t = traverse (\x -> x) t -- alternatively define id
 
 
 -- 7 (Difficult) Write a function `traverseUsingSequence` which behaves like
 --               `traverse`, but is written in terms of `sequence`
+traverseUsingSequence :: forall (@t :: Type -> Type)
+                                ( a :: Type )
+                                ( b :: Type )
+                                ( m :: Type -> Type).
+                                  Traversable t => Applicative m =>
+                                                  (a -> m b) -> t a -> m (t b)
 traverseUsingSequence f t = sequence $ f <$> t
+
