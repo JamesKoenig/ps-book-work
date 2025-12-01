@@ -5,8 +5,8 @@ import Data.Generic.Rep  (class Generic)
 import Data.Show.Generic (genericShow)
 import Data.Foldable     (class Foldable
                          ,foldMap
-                         ,foldlDefault
-                         ,foldrDefault
+                         ,foldl
+                         ,foldr
                          )
 import Data.Traversable (class Traversable
                         ,traverse
@@ -54,11 +54,20 @@ instance Foldable Tree where
   foldMap _  Leaf = mempty
   foldMap fm (Branch left x right) =
     (foldMap fm left) <> (fm x) <> (foldMap fm right)
+-- the above is technically sufficient along with foldlDefault/foldrDefault
 
   -- we can do manual versions of this later, technically foldMap+defaults are
   -- sufficient to define folds for now
-  foldl f = foldlDefault f
-  foldr f = foldrDefault f
+  foldl :: forall a b. (b -> a -> b) -> b -> Tree a -> b
+  foldl _ acc Leaf = acc
+  foldl fbab acc (Branch left val right) = (foldl fbab ((foldl fbab acc left) `fbab` val) right)
+  -- foldl f (f (foldl f (foldl f a l)) v) r
+
+  foldr :: forall a b. (a -> b -> b) -> b -> Tree a -> b
+  foldr _    acc Leaf = acc
+  foldr fabb acc (Branch left val right) =
+    foldr fabb rightFolded left
+    where rightFolded = fabb val $ foldr fabb acc right
 
 -- traverse :: forall a b m. Applicative m => (a -> m b) -> Tree a -> m (Tree b)
 instance Traversable Tree where
