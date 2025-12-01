@@ -60,14 +60,17 @@ instance Foldable Tree where
   -- sufficient to define folds for now
   foldl :: forall a b. (b -> a -> b) -> b -> Tree a -> b
   foldl _ acc Leaf = acc
-  foldl fbab acc (Branch left val right) = (foldl fbab ((foldl fbab acc left) `fbab` val) right)
-  -- foldl f (f (foldl f (foldl f a l)) v) r
+  foldl fbab acc (Branch left val right) =
+    foldl fbab leftFolded right
+    where leftFolded = flip fbab val $ foldl fbab acc left
+  --foldl f a (Branch l v r) = foldl f (f (foldl f a l) v) r
 
   foldr :: forall a b. (a -> b -> b) -> b -> Tree a -> b
   foldr _    acc Leaf = acc
   foldr fabb acc (Branch left val right) =
     foldr fabb rightFolded left
     where rightFolded = fabb val $ foldr fabb acc right
+  --foldr f a (Branch l v r) = foldr f (f v (foldr f a r)) l
 
 -- traverse :: forall a b m. Applicative m => (a -> m b) -> Tree a -> m (Tree b)
 instance Traversable Tree where
