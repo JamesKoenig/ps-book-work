@@ -83,9 +83,9 @@ instance Traversable Tree where
 
   -- sequence :: forall a m.   Applicative m => Tree (m a) -> m (Tree a)
   sequence Leaf = pure Leaf
-  sequence (Branch left val right) = Branch <$> sequence left
-                                            <*> val
-                                            <*> sequence right
+  sequence (Branch left mval right) = Branch <$> sequence left
+                                             <*> mval --recall this is `m a`
+                                             <*> sequence right
   -- add sequenceDefault to the Data.Traversable imports to use this
   --sequence famb = sequenceDefault famb
 
