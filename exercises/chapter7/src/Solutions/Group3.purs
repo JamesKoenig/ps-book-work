@@ -157,6 +157,16 @@ validatePersonOptionalAddress ap =
                   <*> traverse validateAddress             ap.homeAddress
                   <*> validatePhoneNumbers "Phone Numbers" ap.phones
 
+-- Comment the above definition and uncomment the below to use the `ado` ver
+--validatePersonOptionalAddress = validatePersonOptionalAddressAdo
+validatePersonOptionalAddressAdo :: AlternatePerson -> V Errors AlternatePerson
+validatePersonOptionalAddressAdo ap = ado
+  fName <- nonEmpty "First Name"                ap.firstName
+  lName <- nonEmpty "Last Name"                 ap.lastName
+  mAddy <- traverse validateAddress             ap.homeAddress
+  pNums <- validatePhoneNumbers "Phone Numbers" ap.phones
+  in (alternatePerson fName lName mAddy pNums)
+
 -- 6. (Difficult) Write a function `sequenceUsingTraverse` which behaves like
 --                `sequence`, but is written in terms of `traverse`.
 
