@@ -24,7 +24,7 @@ thirdM :: forall (a :: Type). Array a -> Maybe a
 thirdM as = do
   firstTail  <- tail as
   secondTail <- tail firstTail
-  head secondTail 
+  head secondTail
 
 third' :: forall (a :: Type). Array a -> Maybe a
 third' = (_!!2)
