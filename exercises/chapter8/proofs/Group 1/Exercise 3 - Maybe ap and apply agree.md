@@ -2,6 +2,7 @@
 > _Confirm that the `ap` function and the `apply` operator agree for the `Maybe` monad._
 
 ## We begin with the definition of `ap` on `Maybe`
+via the book:
 ```haskell
 ap :: forall m a b. Monad m => m (a -> b) -> m a -> m b
 ap mf ma = do
@@ -9,28 +10,34 @@ ap mf ma = do
    a <- ma
    pure (f a)
 ```
-this is equivalent to:
+this is equivalent to the desugared:
 ```haskell
 ap mf ma = mf >>= (\f -> ma >>= (\a -> pure (f a)) )
 ```
-for the Maybe monad:
+applying the type signatures for the `Maybe` monad, & `Applicative Maybe`'s
+definition of the `pure` function:
 ```haskell
 ap :: forall m a b. Maybe (a -> b) -> Maybe a -> Maybe b
-ap (Just f) (Just a) = (Just f) >>= (\f' -> (Just a)
-                                >>= (\a' -> Just (f' a')))
+ap mf ma = mf >>= (\f -> ma >>= (\a -> Just (f a)))
 ```
-Maybe's Bind instance is:
+the `Bind Maybe` instance is, for later reference:
 ```haskell
 bind (Just x) k = k x
 bind Nothing  _ = Nothing
 ```
 ## We then consider the case where neither argument is `Nothing`
+writing out the desugared `ap` (with `Just` constructors, for clarity):
+```haskell
+ap (Just f) (Just a) = (Just f) >>= (\f' ->
+                                  (Just a) >>= (\a' -> Just (f' a')))
+```
+substituting the inner (second) bind for its matched pattern:
 ```haskell
 ap (Just f) (Just a) = (Just f) >>= (\f' -> (\a' -> Just (f' a')) a)
 ```
 again on the outer bind:
 ```haskell
-ap (Just f) (Just a) = (\f -> (\a -> Just (a f) a) f)
+ap (Just f) (Just a) = (\f -> (\a -> Just (f a) a) f)
 ```
 reducing both lambdas
 ```haskell
