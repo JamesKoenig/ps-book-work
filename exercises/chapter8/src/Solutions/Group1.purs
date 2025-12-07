@@ -27,8 +27,8 @@ import Data.List (List(Nil)
 --           appropriate `Maybe` type.
 
 thirdM :: forall (a :: Type). Array a -> Maybe a
-thirdM as = do
-  firstTail  <- tail as
+thirdM xs = do
+  firstTail  <- tail xs
   secondTail <- tail firstTail
   head secondTail
 
@@ -98,20 +98,20 @@ possibleSums xs = nub <<< sort $ foldM (\x y -> [x,y,x+y]) 0 xs
 --             signature:
 filterM :: forall m a. Monad m => (a -> m Boolean) -> List a -> m (List a)
 filterM _ Nil = pure Nil
-filterM tm (a:as) = do
-  keep  <- tm a
-  recur <- filterM tm as
+filterM tm (x:xs) = do
+  keep  <- tm x
+  recur <- filterM tm xs
   if keep
-    then pure $ a : recur
+    then pure $ x : recur
     else pure recur
 
 filterMBound :: forall m a. Monad m => (a -> m Boolean) -> List a -> m (List a)
 filterMBound  _ Nil = pure Nil
-filterMBound tm (a:as) =
-  tm a >>=
-    \keep  ->
-      filterMBound tm as >>=
+filterMBound tm (x:xs) =
+  tm x >>=
+    \keep ->
+      filterMBound tm xs >>=
         \recur ->
           pure (if keep
-                then a : recur
+                then x : recur
                 else recur)
