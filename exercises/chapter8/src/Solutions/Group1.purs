@@ -110,7 +110,7 @@ filterMBound  _ Nil = pure Nil
 filterMBound tm (a:as) =
   tm a >>=
     \keep  ->
-      filterM tm as >>=
+      filterMBound tm as >>=
         \recur ->
           pure (if keep
                 then a : recur
