@@ -107,4 +107,11 @@ filterM tm (a:as) = do
 
 filterMBound :: forall m a. Monad m => (a -> m Boolean) -> List a -> m (List a)
 filterMBound  _ Nil = pure Nil
-filterMBound tm (a:as) = tm a >>= \keep -> filterM tm as >>= \recur -> pure (if keep then a : recur else recur)
+filterMBound tm (a:as) =
+  tm a >>=
+    \keep  ->
+      filterM tm as >>=
+        \recur ->
+          pure (if keep
+                then a : recur
+                else recur)
