@@ -49,46 +49,8 @@ possibleSums xs = nub <<< sort $ foldM (\x y -> [x,y,x+y]) 0 xs
 -- 3. (Medium) Confirm that the `ap` function and the `apply` operator agree for
 --             the `Maybe` monad.
 
--- ap :: forall m a b. Monad m => m (a -> b) -> m a -> m b
--- ap mf ma = do
---    f <- mf
---    a <- ma
---    pure (f a)
--- this is equivalent to:
---    ap mf ma = mf >>= (\f -> ma >>= (\a -> pure (f a)) )
--- for the Maybe monad:
---    ap :: forall m a b. Maybe (a -> b) -> Maybe a -> Maybe b
---    ap (Just f) (Just a) = (Just f) >>= (\f' -> (Just a)
---                                    >>= (\a'-> Just (f' a')))
--- Maybe's Bind instance is:
---    bind (Just x) k = k x
---    bind Nothing  _ = Nothing
--- Applying this to the above when neither is Nothing:
---    ap (Just f) (Just a) = (Just f) >>= (\f' -> (\a' -> Just (f' a')) a)
--- again on the outer bind:
---    ap (Just f) (Just a) = (\f -> (\a -> Just (a f) a) f)
--- reducing both lambdas, and reincluding the `Nothing` instance:
---    ap (Just f) (Just a) = Just (f a)
---    ap Nothing         _ = Nothing
--- apply's definition for Maybe:
---    apply :: forall (a :: Type) (b :: Type).
---      Maybe (a -> b) -> Maybe a -> Maybe b
---    apply (Just fn) x = fn <$> x
---    apply Nothing   _ = Nothing
--- functor definition for Maybe:
---    map fn (Just x)   = Just (fn x)
---    map _  _          = Nothing
--- substituting the first definition for both apply and map:
---    apply (Just f) (Just a) = f <$> (Just a) = Just (f a)
---  which means that apply (Just f) (Just a) = ap (Just f) (Just a)
--- in the situations where Nothing is encountered, for ap either argument being
--- nothing invokes the `bind Nothing _ = Nothing` result
---
--- for apply, the second case of the apply instance for maybe covers when the
--- Just (a -> b) is nothing, and the definition of map _ _ = Nothing will
--- pattern match when it's map fn Nothing, so the result is Nothing as well.
-
--- therefore in all cases they are the same.
+-- See `proofs/Group 1/Exercise 3 - Maybe ap and apply agree.md`
+--   for the solution
 
 -- 4. (Medium) Verify that the monad laws hold for the `Monad` instance for the
 --             `Maybe` type, as defined in the `maybe` package.
