@@ -50,10 +50,13 @@ possibleSums xs = nub <<< sort $ foldM (\x y -> [x,y,x+y]) 0 xs
 --             the `Maybe` monad.
 
 -- See `proofs/Group 1/Exercise 3 - Maybe ap and apply agree.md`
---   for the solution
+--   for the solution.
 
 -- 4. (Medium) Verify that the monad laws hold for the `Monad` instance for the
 --             `Maybe` type, as defined in the `maybe` package.
+
+-- See `proofs/Group 1/Exercise 4 - Maybe adherence to Monad Laws.md`
+--   for the solution.
 
 -- 5. (Medium) Write a function `filterM` which generalizes the `filter`
 --             function on lists.  Your function should have the following type
