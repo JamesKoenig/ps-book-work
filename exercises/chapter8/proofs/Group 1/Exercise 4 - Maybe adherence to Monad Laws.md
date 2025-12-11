@@ -54,6 +54,27 @@ is the same as:
 ```haskell
 next
 ```
+> "after the name `x` has been replaced with the expression `y`"
+
+Because that doesn't make a lot of sense I'm going to use
+[the version from the Control.Monad documentation][control-monad] which states:
+```haskell
+-- left identity
+pure x >>= f = f x
+```
+substituting in `pure x` for its `Just` from `Applicative Maybe`, using `bind`
+and adding type annotations for `Maybe`:
+```haskell
+(bind :: Maybe a -> (a -> Maybe b)  -> Maybe b)
+  (Just x :: Maybe a)
+  (f      :: a -> Maybe b)
+```
+substituting `bind (Just x) k = k x` from the definition of a non-`Nothing`
+Maybe this becomes:
+```haskell
+f x
+```
+Q.E.D.
 
 ## Associativity:
 the associative law states that:
@@ -72,3 +93,5 @@ do
   m3
 ```
 are equivalent, as are any variations.
+
+[control-monad]: https://pursuit.purescript.org/packages/purescript-prelude/6.0.0/docs/Control.Monad#t:Monad
