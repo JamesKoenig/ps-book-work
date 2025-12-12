@@ -94,4 +94,24 @@ do
 ```
 are equivalent, as are any variations.
 
+the inner do of the first one becomes
+```haskell
+do
+  y <- (m1 >>= \x -> m2)
+  m3
+```
+which becomes
+```haskell
+m1 >>= \x -> m2 >>= \y -> m3
+```
+one can show that the second form becomes the same thing:
+```haskell
+do
+  x <- m1
+  y <- m2
+  m3
+-- becomes
+m1 >>= \x -> m2 >>= \y -> m3
+```
+
 [control-monad]: https://pursuit.purescript.org/packages/purescript-prelude/6.0.0/docs/Control.Monad#t:Monad
