@@ -80,3 +80,8 @@ filterMBound tm (x:xs) =
           pure (if keep
                 then x : recur
                 else recur)
+
+-- 6. (Difficult) Use the monad laws to prove that for any monad, the following
+--                holds: `lift2 f (pure a) (pure b) = pure (f a b)`
+
+-- See `/proofs/Group 1/Exercise 6 - Monad lift2.md` for the solution
