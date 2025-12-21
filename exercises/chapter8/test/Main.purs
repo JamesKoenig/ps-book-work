@@ -18,6 +18,8 @@ import Solutions.Group1 (third
                         ,possibleSums
                         ,filterM
                         )
+import Solutions.Group2 (exceptionDivide
+                        )
 
 main :: Effect Unit
 main =
@@ -79,7 +81,6 @@ main =
             $ filterM
                 onlyPositiveEvenIntegers
                 (2 : 3 : 4 : Nil)
-    {-  Move this block comment starting point to enable more tests
       suite "exceptionDivide" do
         test "6 / 3"
           $ Assert.equal 2
@@ -92,6 +93,7 @@ main =
           $ fromLeft (error "")
           $ unsafePerformEffect
           $ try $ exceptionDivide 6 0
+    {-  Move this block comment starting point to enable more tests
       suite "ST" do
         suite "estimatePi" do
           test "1000 terms of Gregory Series"
