@@ -62,7 +62,6 @@ main =
             $ filterM
                 onlyPositives
                 (2 : (-1) : 4 : Nil)
-    {-  Move this block comment starting point to enable more tests
         suite "Maybe Monad" do
           let
             -- This is an impractical filtering function,
@@ -80,6 +79,7 @@ main =
             $ filterM
                 onlyPositiveEvenIntegers
                 (2 : 3 : 4 : Nil)
+    {-  Move this block comment starting point to enable more tests
       suite "exceptionDivide" do
         test "6 / 3"
           $ Assert.equal 2
