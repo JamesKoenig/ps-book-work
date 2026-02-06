@@ -25,6 +25,10 @@ exceptionDivide x y
 --             terms of the Gregory Series to calculate an approximation of
 --             `pi`.
 
+-- in latex:
+-- \pi=\lim_{n\to\inf} \left[ 4\cdot\sum_{k=1}^n \frac{(-1)^{k+1}}{2k-1} \right]
+-- in pseudocode:
+-- lim(n->inf) 4*SUM(from: 1, to: n, (odd(k) ? 1 : -1)/(2*k-1))
 estimatePi :: Int -> Number
 estimatePi n = run do
   ref <- new 0.0
@@ -33,6 +37,7 @@ estimatePi n = run do
 
   final <- read ref
   pure $ 4.0*final
+
   where step :: Int -> Number -> Number
         step k x =
           let sign  = if (k `mod` 2) == 1
