@@ -19,6 +19,7 @@ import Solutions.Group1 (third
                         ,filterM
                         )
 import Solutions.Group2 (exceptionDivide
+                        ,estimatePi
                         )
 
 main :: Effect Unit
@@ -93,7 +94,6 @@ main =
           $ fromLeft (error "")
           $ unsafePerformEffect
           $ try $ exceptionDivide 6 0
-    {-  Move this block comment starting point to enable more tests
       suite "ST" do
         suite "estimatePi" do
           test "1000 terms of Gregory Series"
@@ -102,6 +102,7 @@ main =
           test "1000000 terms of Gregory Series"
             $ Assert.assert "Estimated value of pi not within threshold"
             (abs (estimatePi 1000000 - pi) < 0.000002)
+    {-  Move this block comment starting point to enable more tests
         suite "fibonacci" do
           test "40th Fibonacci number"
             $ Assert.equal 102334155 (fibonacci 40)
