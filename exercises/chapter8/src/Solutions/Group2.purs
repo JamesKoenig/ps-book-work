@@ -53,6 +53,35 @@ estimatePi n = run do
 --             ST-based implementation against the recursive implementation
 --             (`fib`) from Chapter 5.
 
+-- I'm heavily referencing the version of this I made for Ch5 Grp4 Ex3 which
+-- does the same approach
+type Accumulator = Int
+type Next        = Int
+type StepVar     = { acc  :: Accumulator
+                   , next :: Next
+                   }
+step :: StepVar -> StepVar
+step {acc,next} = { acc:  next
+                  , next: acc+next
+                  }
+
+fibonacci :: Int -> Int
+fibonacci n
+  | n < 0     = 0
+  | otherwise = run do
+
+    let init = { acc:  0
+               , next: 1
+               }
+
+    ref   <- new init
+
+    for 0 n \_ ->
+       modify step ref
+
+    { acc } <- read ref
+    pure acc
+
 --the recursive implementation from chapter 5:
 fib :: Int -> Int
 fib 0 = 0
