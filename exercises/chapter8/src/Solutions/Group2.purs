@@ -87,3 +87,8 @@ fib :: Int -> Int
 fib 0 = 0
 fib 1 = 1
 fib n = fib (n - 1) + fib (n - 2)
+
+-- when benchmarked the O(n) `fibonacci` code is orders of magnitude faster
+-- than the O(2^n) `fib` code but also seems slower than the version I made for
+-- Ch5 Grp4 Ex3, that said it seems to have the same bounding function.  which
+-- means if fibonacci takes 50us, the Ch5 version takes 5.  Really neat!

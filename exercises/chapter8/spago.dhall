@@ -27,6 +27,7 @@ You can edit this file as you like.
   , "validation"
   , "web-dom"
   , "web-html"
+  , "minibench"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]
