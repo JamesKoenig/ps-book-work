@@ -5,6 +5,7 @@
   "main": "output/Main/index.js",
   "private": true,
   "author": "Phil Freeman",
+  "targets": { "main": false },
   "license": "Creative,Commons,Attribution-NonCommercial-ShareAlike,4.0,International,License",
   "dependencies": {
     "react": "^16.13.1",
