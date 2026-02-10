@@ -1,4 +1,11 @@
-module Solutions.Group2 where
+-- Purescript By Example
+-- solutions for Chapter 8, Exercise Group 2
+-- https://book.purescript.org/chapter8.html#exercises-1
+module Solutions.Group2 (exceptionDivide
+                        ,estimatePi
+                        ,fibonacci
+                        ,fib
+                        ) where
 
 import Prelude
 
