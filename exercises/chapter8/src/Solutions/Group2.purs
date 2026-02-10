@@ -67,8 +67,8 @@ type Next        = Int
 type StepVar     = { acc  :: Accumulator
                    , next :: Next
                    }
-step :: StepVar -> StepVar
-step {acc,next} = { acc:  next
+fibStep :: StepVar -> StepVar
+fibStep {acc,next} = { acc:  next
                   , next: acc+next
                   }
 
@@ -84,7 +84,7 @@ fibonacci n
     ref   <- new init
 
     for 0 n \_ ->
-       modify step ref
+       modify fibStep ref
 
     { acc } <- read ref
     pure acc
