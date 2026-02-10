@@ -2,7 +2,7 @@ module Test.Main where
 
 import Prelude
 
-import Data.Either (Either(..), fromLeft, fromRight)
+import Data.Either (fromLeft, fromRight)
 import Data.List (List(..), foldM, (:))
 import Data.Maybe (Maybe(..))
 import Effect (Effect)
@@ -20,6 +20,7 @@ import Solutions.Group1 (third
                         )
 import Solutions.Group2 (exceptionDivide
                         ,estimatePi
+                        ,fibonacci
                         )
 
 main :: Effect Unit
@@ -102,13 +103,12 @@ main =
           test "1000000 terms of Gregory Series"
             $ Assert.assert "Estimated value of pi not within threshold"
             (abs (estimatePi 1000000 - pi) < 0.000002)
-    {-  Move this block comment starting point to enable more tests
         suite "fibonacci" do
           test "40th Fibonacci number"
             $ Assert.equal 102334155 (fibonacci 40)
           test "45th Fibonacci number"
             $ Assert.equal 1134903170 (fibonacci 45)
-
+    {-  Move this block comment starting point to enable more tests
 -}
 runChapterExamples :: TestSuite
 runChapterExamples =
