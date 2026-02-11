@@ -5,6 +5,8 @@ module Solutions.Group2 (exceptionDivide
                         ,estimatePi
                         ,fibonacci
                         ,fib
+                        ,benchFibs
+                        ,main
                         ) where
 
 import Prelude
@@ -19,6 +21,8 @@ import Control.Monad.ST (for
                         ,run
                         )
 import Data.Int (toNumber)
+import Performance.Minibench (bench)
+import Effect.Console (log)
 
 -- 1. (Medium) Rewrite the `safeDivide` function as exceptionDivide and throw an
 --             exception using `throwException` with the message "div zero" if
@@ -99,3 +103,26 @@ fib n = fib (n - 1) + fib (n - 2)
 -- than the O(2^n) `fib` code but also seems slower than the version I made for
 -- Ch5 Grp4 Ex3, that said it seems to have the same bounding function.  which
 -- means if fibonacci takes 50us, the Ch5 version takes 5.  Really neat!
+
+main :: Effect Unit
+main = benchFibs
+
+benchFibs :: Effect Unit
+benchFibs = do
+  log "benchmarking fib 40 (THIS WILL TAKE A WHILE)"
+  bench (\_ -> fib 40)
+  log "benchmarking fibonacci 40"
+  bench (\_ -> fibonacci 40)
+
+----Example Output of `spago run -m Solutions.Group2
+--[info] Build succeeded.
+--benchmarking fib 40 (THIS WILL TAKE A WHILE)
+--mean   = 1.45 s
+--stddev = 129.76 ms
+--min    = 1.09 s
+--max    = 2.08 s
+--benchmarking fibonacci 40
+--mean   = 7.35 μs
+--stddev = 38.36 μs
+--min    = 1.44 μs
+--max    = 871.85 μs
