@@ -29,13 +29,11 @@ renderValidationErrors [] = []
 renderValidationErrors xs =
   let
     renderError :: String -> R.JSX
-    renderError err = D.li_ [ D.text err ]
+    renderError err = D.li { className: "alert alert-danger row"
+                           , children:  [ D.text err ]
+                           }
   in
-    [ D.div
-        { className: "alert alert-danger row"
-        , children: [ D.ul_ (map renderError xs) ]
-        }
-    ]
+    [ D.div_ [ D.ul_ (map renderError xs) ] ]
 
 -- Helper function to render a single form field with an
 -- event handler to update
