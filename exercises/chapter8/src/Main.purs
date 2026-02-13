@@ -74,7 +74,7 @@ formField name placeholder value setValue =
 mkAddressBookApp :: Effect (ReactComponent {})
 mkAddressBookApp =
   -- incoming \props are unused
-  reactComponent "AddressBookApp" \props -> R.do
+  reactComponent "AddressBookApp" \_props -> R.do
     -- `useState` takes a default initial value and returns the
     -- current value and a way to update the value.
     -- Consult react-hooks docs for a more detailed explanation of `useState`.
