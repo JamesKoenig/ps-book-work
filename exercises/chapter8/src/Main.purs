@@ -3,7 +3,10 @@ module Main where
 import Prelude
 
 import Data.AddressBook (PhoneNumber, examplePerson)
-import Data.AddressBook.Validation (Errors, validatePerson')
+import Data.AddressBook.Validation ( Errors
+                                   , validatePerson'
+                                   , ValidationError(..)
+                                   )
 import Data.Array (mapWithIndex, updateAt)
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..), fromMaybe)
@@ -24,15 +27,15 @@ import Web.HTML.Window (document)
 -- Note that there's a Purty formatting bug that
 -- adds an unwanted blank line
 -- https://gitlab.com/joneshf/purty/issues/77
+renderError :: ValidationError -> R.JSX
+renderError (ValidationError err _)
+  = D.li { className: "alert alert-danger row"
+         , children:  [ D.text err ]
+         }
+
 renderValidationErrors :: Errors -> Array R.JSX
 renderValidationErrors [] = []
 renderValidationErrors xs =
-  let
-    renderError :: String -> R.JSX
-    renderError err = D.li { className: "alert alert-danger row"
-                           , children:  [ D.text err ]
-                           }
-  in
     [ D.div_ [ D.ul_ (map renderError xs) ] ]
 
 -- Helper function to render a single form field with an
