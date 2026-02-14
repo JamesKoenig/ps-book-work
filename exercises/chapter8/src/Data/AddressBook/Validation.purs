@@ -18,6 +18,8 @@ import Data.String.Regex.Unsafe (unsafeRegex)
 import Data.Traversable (traverse)
 import Data.Validation.Semigroup (V, invalid, toEither)
 import Data.Maybe (Maybe(..))
+import Data.Generic.Rep (class Generic)
+import Data.Show.Generic (genericShow)
 
 data FailedField = FirstNameField
                  | LastNameField
@@ -37,6 +39,12 @@ instance Show FailedField where
   show (PhoneField Nothing)  = "Phone Numbers"
 
 data ValidationError = ValidationError String FailedField
+
+derive instance Generic ValidationError _
+
+instance Show ValidationError where
+  show = genericShow
+
 type Errors = Array ValidationError
 
 vError :: FailedField -> String -> ValidationError
