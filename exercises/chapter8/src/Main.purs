@@ -148,17 +148,21 @@ mkAddressBookApp =
                                   )
                                 , D.h3_ [ D.text "Address" ]
                                 , formField
-                                  (quickFormProp
-                                    "Street"
-                                    person.homeAddress.street
-                                    \s -> setPerson _ { street = s }
-                                  )
+                                  { name:        "Street"
+                                  , placeholder: "Street"
+                                  , value:       person.homeAddress.street
+                                  , setValue:    (\s ->
+                                                   setPerson 
+                                                     _ { homeAddress
+                                                         { street = s }
+                                                       }
+                                                 )
+                                  }
                                 , formField
                                   (quickFormProp
                                     "City"
                                     person.homeAddress.city
-                                    \s ->
-                                      setPerson _ { homeAddress { city = s } }
+                                    \s -> setPerson _ { homeAddress { city = s } }
                                   )
                                 , formField
                                   (quickFormProp
