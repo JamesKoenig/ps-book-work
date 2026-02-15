@@ -38,11 +38,27 @@ renderValidationErrors [] = []
 renderValidationErrors xs =
     [ D.div_ [ D.ul_ (map renderError xs) ] ]
 
+type FormProp = { name        :: String
+                , placeholder :: String
+                , value       :: String
+                , setValue    :: String -> Effect Unit
+                }
+
+-- assumes plaeholder == name
+quickFormProp :: String -> String -> (String -> Effect Unit) -> FormProp
+quickFormProp name value setValue =
+  { name
+  , placeholder: name
+  , value
+  , setValue
+  }
+
 -- Helper function to render a single form field with an
 -- event handler to update
-formField :: String -> String -> String -> (String -> Effect Unit) -> R.JSX
-formField name placeholder value setValue =
-  D.div
+formField :: FormProp -> R.JSX
+formField props =
+  let { name, placeholder, value, setValue } = props
+  in D.div
     { className: "form-group row"
     , children:
         [ D.label
@@ -91,11 +107,19 @@ mkAddressBookApp =
       -- helper-function to render a single phone number at a given index
       renderPhoneNumber :: Int -> PhoneNumber -> R.JSX
       renderPhoneNumber index phone =
-        formField
-          (show phone."type")
-          "XXX-XXX-XXXX"
-          phone.number
-          (\s -> setPerson _ { phones = updateAt' index phone { number = s } person.phones })
+        let setValue s =
+              setPerson _ { phones = updateAt' index phone { number = s } person.phones }
+            props = { name:        (show phone."type")
+                    , placeholder: "XXX-XXX-XXXX"
+                    , value:       phone.number
+                    , setValue
+                    }
+        in formField props
+--        {
+--          (show phone."type")
+--          "XXX-XXX-XXXX"
+--          phone.number
+--          (\s -> setPerson _ { phones = updateAt' index phone { number = s } person.phones })
 
       -- helper-function to render all phone numbers
       renderPhoneNumbers :: Array R.JSX
@@ -110,17 +134,39 @@ mkAddressBookApp =
                       , children:
                           [ D.form_
                               $ [ D.h3_ [ D.text "Basic Information" ]
-                                , formField "First Name" "First Name" person.firstName \s ->
-                                    setPerson _ { firstName = s }
-                                , formField "Last Name" "Last Name" person.lastName \s ->
-                                    setPerson _ { lastName = s }
+                                , formField
+                                  (quickFormProp
+                                    "First Name"
+                                    person.firstName 
+                                    \s -> setPerson _ { firstName = s }
+                                  )
+                                , formField
+                                  (quickFormProp
+                                    "Last Name"
+                                    person.lastName
+                                    \s -> setPerson _ { lastName = s }
+                                  )
                                 , D.h3_ [ D.text "Address" ]
-                                , formField "Street" "Street" person.homeAddress.street \s ->
-                                    setPerson _ { homeAddress { street = s } }
-                                , formField "City" "City" person.homeAddress.city \s ->
-                                    setPerson _ { homeAddress { city = s } }
-                                , formField "State" "State" person.homeAddress.state \s ->
-                                    setPerson _ { homeAddress { state = s } }
+                                , formField
+                                  (quickFormProp
+                                    "Street"
+                                    person.homeAddress.street
+                                    \s -> setPerson _ { street = s }
+                                  )
+                                , formField
+                                  (quickFormProp
+                                    "City"
+                                    person.homeAddress.city
+                                    \s ->
+                                      setPerson _ { homeAddress { city = s } }
+                                  )
+                                , formField
+                                  (quickFormProp
+                                    "State"
+                                    person.homeAddress.state
+                                    \s ->
+                                      setPerson _ { homeAddress { state = s } }
+                                  )
                                 , D.h3_ [ D.text "Contact Information" ]
                                 ]
                               <> renderPhoneNumbers
