@@ -6,8 +6,12 @@ import Data.AddressBook (PhoneNumber, examplePerson)
 import Data.AddressBook.Validation ( Errors
                                    , validatePerson'
                                    , ValidationError(..)
+                                   , FailedField(..)
                                    )
-import Data.Array (mapWithIndex, updateAt)
+import Data.Array ( mapWithIndex
+                  , updateAt
+                  , filter
+                  )
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Tuple (Tuple(..))
@@ -100,6 +104,14 @@ mkAddressBookApp =
         Left  e -> e
         Right _ -> []
 
+      phoneErrors = filter isPhone errors
+        where isPhone (ValidationError _ (PhoneField _)) = true
+              isPhone _                                  = false
+
+      filterErrors :: FailedField ->  Errors
+      filterErrors field = filter hasField errors
+        where hasField (ValidationError _ failedField) = failedField == field
+
       -- helper-function to return array unchanged instead of Nothing if index is out of bounds
       updateAt' :: forall a. Int -> a -> Array a -> Array a
       updateAt' i x xs = fromMaybe xs (updateAt i x xs)
@@ -108,18 +120,17 @@ mkAddressBookApp =
       renderPhoneNumber :: Int -> PhoneNumber -> R.JSX
       renderPhoneNumber index phone =
         let setValue s =
-              setPerson _ { phones = updateAt' index phone { number = s } person.phones }
+              setPerson _ { phones = updateAt'
+                            index
+                            phone { number = s }
+                            person.phones
+                          }
             props = { name:        (show phone."type")
                     , placeholder: "XXX-XXX-XXXX"
                     , value:       phone.number
                     , setValue
                     }
         in formField props
---        {
---          (show phone."type")
---          "XXX-XXX-XXXX"
---          phone.number
---          (\s -> setPerson _ { phones = updateAt' index phone { number = s } person.phones })
 
       -- helper-function to render all phone numbers
       renderPhoneNumbers :: Array R.JSX
@@ -137,7 +148,7 @@ mkAddressBookApp =
                                 , formField
                                   (quickFormProp
                                     "First Name"
-                                    person.firstName 
+                                    person.firstName
                                     \s -> setPerson _ { firstName = s }
                                   )
                                 , formField
@@ -148,21 +159,18 @@ mkAddressBookApp =
                                   )
                                 , D.h3_ [ D.text "Address" ]
                                 , formField
-                                  { name:        "Street"
-                                  , placeholder: "Street"
-                                  , value:       person.homeAddress.street
-                                  , setValue:    (\s ->
-                                                   setPerson 
-                                                     _ { homeAddress
-                                                         { street = s }
-                                                       }
-                                                 )
-                                  }
+                                  (quickFormProp
+                                    "City"
+                                    person.homeAddress.street
+                                    \s ->
+                                      setPerson _ { homeAddress { street = s } }
+                                  )
                                 , formField
                                   (quickFormProp
                                     "City"
                                     person.homeAddress.city
-                                    \s -> setPerson _ { homeAddress { city = s } }
+                                    \s ->
+                                      setPerson _ { homeAddress { city = s } }
                                   )
                                 , formField
                                   (quickFormProp
@@ -173,6 +181,7 @@ mkAddressBookApp =
                                   )
                                 , D.h3_ [ D.text "Contact Information" ]
                                 ]
+                              <> renderValidationErrors phoneErrors
                               <> renderPhoneNumbers
                           ]
                       , key: "person-form"
