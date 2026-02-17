@@ -19,6 +19,8 @@ data PhoneType
   | CellPhone
   | OtherPhone
 
+derive instance Eq PhoneType
+
 derive instance Generic PhoneType _
 
 instance Show PhoneType where

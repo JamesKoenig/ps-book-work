@@ -28,6 +28,8 @@ data FailedField = FirstNameField
                  | StateField
                  | PhoneField (Maybe PhoneType)
 
+derive instance Eq FailedField
+
 instance Show FailedField where
   show FirstNameField = "First Name"
   show LastNameField  = "Last Name"
@@ -101,3 +103,4 @@ validatePerson p =
 
 validatePerson' :: Person -> Either Errors Person
 validatePerson' p = toEither $ validatePerson p
+
