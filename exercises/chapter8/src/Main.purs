@@ -8,10 +8,7 @@ import Data.AddressBook.Validation ( Errors
                                    , ValidationError(..)
                                    , FailedField(..)
                                    )
-import Data.Array ( mapWithIndex
-                  , updateAt
-                  , filter
-                  )
+import Data.Array (mapWithIndex, updateAt, filter)
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..), fromMaybe)
 import Data.Tuple (Tuple(..))
@@ -42,30 +39,11 @@ renderValidationErrors [] = []
 renderValidationErrors xs =
     [ D.div_ [ D.ul_ (map renderError xs) ] ]
 
-type FormProp = { name        :: String
-                , placeholder :: String
-                , value       :: String
-                , setValue    :: String -> Effect Unit
-                , errors      :: Errors
-                }
-
--- assumes plaeholder == name
-quickFormProp ::
-  Errors -> String -> String -> (String -> Effect Unit) -> FormProp
-quickFormProp errors name value setValue =
-  { name
-  , placeholder: name
-  , value
-  , setValue
-  , errors
-  }
-
 -- Helper function to render a single form field with an
 -- event handler to update
-formField :: FormProp -> R.JSX
-formField props =
-  let { name, placeholder, value, setValue, errors } = props
-  in D.div
+formField :: String -> String -> String -> (String -> Effect Unit) -> R.JSX
+formField name placeholder value setValue =
+  D.div
     { className: "form-group row"
     , children:
         [ D.label
@@ -92,7 +70,6 @@ formField props =
                 ]
             }
         ]
-        <> renderValidationErrors errors
     }
 
 mkAddressBookApp :: Effect (ReactComponent {})
@@ -108,13 +85,14 @@ mkAddressBookApp =
         Left  e -> e
         Right _ -> []
 
+      filterErrors :: FailedField -> Errors
+      filterErrors field = filter hasField errors
+        where hasField (ValidationError _ failedField) = failedField == field
+
+      phoneErrors :: Errors
       phoneErrors = filter isPhone errors
         where isPhone (ValidationError _ (PhoneField _)) = true
               isPhone _                                  = false
-
-      filterErrors :: FailedField ->  Errors
-      filterErrors field = filter hasField errors
-        where hasField (ValidationError _ failedField) = failedField == field
 
       -- helper-function to return array unchanged instead of Nothing if index is out of bounds
       updateAt' :: forall a. Int -> a -> Array a -> Array a
@@ -123,80 +101,67 @@ mkAddressBookApp =
       -- helper-function to render a single phone number at a given index
       renderPhoneNumber :: Int -> PhoneNumber -> R.JSX
       renderPhoneNumber index phone =
-        let setValue s =
-              setPerson _ { phones = updateAt'
-                            index
-                            phone { number = s }
-                            person.phones
-                          }
-            props = { name:        (show phone."type")
-                    , placeholder: "XXX-XXX-XXXX"
-                    , value:       phone.number
-                    , setValue
-                    , errors: []
-                    }
-        in formField props
+        formField
+          (show phone."type")
+          "XXX-XXX-XXXX"
+          phone.number
+          (\s -> setPerson _ { phones = updateAt' index phone { number = s } person.phones })
 
       -- helper-function to render all phone numbers
       renderPhoneNumbers :: Array R.JSX
       renderPhoneNumbers = mapWithIndex renderPhoneNumber person.phones
+
+      firstNameField :: Array R.JSX
+      firstNameField =
+        renderValidationErrors (filterErrors FirstNameField)
+        <> [ (formField "First Name" "First Name" person.firstName
+            \s -> setPerson _ { firstName = s}) ]
+
+      lastNameField :: Array R.JSX
+      lastNameField =
+        renderValidationErrors (filterErrors LastNameField)
+        <> [ formField "Last Name" "Last Name" person.lastName
+            \s -> setPerson _ { lastName = s } ]
+
+      streetField :: Array R.JSX
+      streetField =
+        renderValidationErrors (filterErrors StreetField)
+        <> [ formField "Street" "Street" person.homeAddress.street
+            \s -> setPerson _ { homeAddress { street = s } } ]
+
+      cityField :: Array R.JSX
+      cityField =
+        renderValidationErrors (filterErrors CityField)
+        <> [ formField "City" "City" person.homeAddress.city
+            \s -> setPerson _ { homeAddress { city = s } } ]
+
+      stateField :: Array R.JSX
+      stateField =
+        renderValidationErrors (filterErrors StateField)
+        <> [ formField "State" "State" person.homeAddress.state
+            \s -> setPerson _ { homeAddress { state = s } } ]
     pure
       $ D.div
           { className: "container"
           , children:
-              renderValidationErrors errors
-                <> [ D.div
-                      { className: "row"
-                      , children:
-                          [ D.form_
-                              $ [ D.h3_ [ D.text "Basic Information" ]
-                                , formField
-                                  (quickFormProp
-                                    (filterErrors FirstNameField)
-                                    "First Name"
-                                    person.firstName
-                                    \s -> setPerson _ { firstName = s }
-                                  )
-                                , formField
-                                  (quickFormProp
-                                    (filterErrors LastNameField)
-                                    "Last Name"
-                                    person.lastName
-                                    \s -> setPerson _ { lastName = s }
-                                  )
-                                , D.h3_ [ D.text "Address" ]
-                                , formField
-                                  (quickFormProp
-                                    (filterErrors StreetField)
-                                    "Street"
-                                    person.homeAddress.street
-                                    \s ->
-                                      setPerson _ { homeAddress { street = s } }
-                                  )
-                                , formField
-                                  (quickFormProp
-                                    (filterErrors CityField)
-                                    "City"
-                                    person.homeAddress.city
-                                    \s ->
-                                      setPerson _ { homeAddress { city = s } }
-                                  )
-                                , formField
-                                  (quickFormProp
-                                    (filterErrors StateField)
-                                    "State"
-                                    person.homeAddress.state
-                                    \s ->
-                                      setPerson _ { homeAddress { state = s } }
-                                  )
-                                , D.h3_ [ D.text "Contact Information" ]
-                                ]
-                              <> renderValidationErrors phoneErrors
-                              <> renderPhoneNumbers
-                          ]
-                      , key: "person-form"
-                      }
-                  ]
+                [ D.div
+                    { className: "row"
+                    , children:
+                        [ D.form_
+                            $ [ D.h3_ [ D.text "Basic Information" ] ]
+                            <> firstNameField
+                            <> lastNameField
+                            <> [ D.h3_ [ D.text "Address" ] ]
+                            <> streetField
+                            <> cityField
+                            <> stateField
+                            <> [ D.h3_ [ D.text "Contact Information" ] ]
+                            <> renderValidationErrors phoneErrors
+                            <> renderPhoneNumbers
+                        ]
+                    , key: "person-form"
+                    }
+                ]
           }
 
 main :: Effect Unit
