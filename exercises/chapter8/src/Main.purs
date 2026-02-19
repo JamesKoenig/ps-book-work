@@ -46,22 +46,25 @@ type FormProp = { name        :: String
                 , placeholder :: String
                 , value       :: String
                 , setValue    :: String -> Effect Unit
+                , errors      :: Errors
                 }
 
 -- assumes plaeholder == name
-quickFormProp :: String -> String -> (String -> Effect Unit) -> FormProp
-quickFormProp name value setValue =
+quickFormProp ::
+  Errors -> String -> String -> (String -> Effect Unit) -> FormProp
+quickFormProp errors name value setValue =
   { name
   , placeholder: name
   , value
   , setValue
+  , errors
   }
 
 -- Helper function to render a single form field with an
 -- event handler to update
 formField :: FormProp -> R.JSX
 formField props =
-  let { name, placeholder, value, setValue } = props
+  let { name, placeholder, value, setValue, errors } = props
   in D.div
     { className: "form-group row"
     , children:
@@ -89,6 +92,7 @@ formField props =
                 ]
             }
         ]
+        <> renderValidationErrors errors
     }
 
 mkAddressBookApp :: Effect (ReactComponent {})
@@ -129,6 +133,7 @@ mkAddressBookApp =
                     , placeholder: "XXX-XXX-XXXX"
                     , value:       phone.number
                     , setValue
+                    , errors: []
                     }
         in formField props
 
@@ -147,12 +152,14 @@ mkAddressBookApp =
                               $ [ D.h3_ [ D.text "Basic Information" ]
                                 , formField
                                   (quickFormProp
+                                    (filterErrors FirstNameField)
                                     "First Name"
                                     person.firstName
                                     \s -> setPerson _ { firstName = s }
                                   )
                                 , formField
                                   (quickFormProp
+                                    (filterErrors LastNameField)
                                     "Last Name"
                                     person.lastName
                                     \s -> setPerson _ { lastName = s }
@@ -160,13 +167,15 @@ mkAddressBookApp =
                                 , D.h3_ [ D.text "Address" ]
                                 , formField
                                   (quickFormProp
-                                    "City"
+                                    (filterErrors StreetField)
+                                    "Street"
                                     person.homeAddress.street
                                     \s ->
                                       setPerson _ { homeAddress { street = s } }
                                   )
                                 , formField
                                   (quickFormProp
+                                    (filterErrors CityField)
                                     "City"
                                     person.homeAddress.city
                                     \s ->
@@ -174,6 +183,7 @@ mkAddressBookApp =
                                   )
                                 , formField
                                   (quickFormProp
+                                    (filterErrors StateField)
                                     "State"
                                     person.homeAddress.state
                                     \s ->
