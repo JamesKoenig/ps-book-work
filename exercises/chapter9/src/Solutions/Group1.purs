@@ -1,10 +1,11 @@
 module Solutions.Group1 ( concatenateFiles
                         , concatenateMany
+                        , countCharacters
                         ) where
 import Prelude
 import Effect.Aff ( Aff
+                  , attempt
                   )
-import Effect (Effect)
 import Node.Encoding (Encoding(..))
 import Node.FS.Aff ( readTextFile
                    , writeTextFile
@@ -13,6 +14,9 @@ import Node.Path ( FilePath
                  )
 import Data.Traversable (traverse)
 import Data.Foldable (foldr)
+import Data.Either (Either)
+import Effect.Exception (Error)
+import Data.String (length)
 
 --Exercise 1. (Easy) Write a function `concatenateFiles` function that 
 --                   concatenates two files
@@ -30,3 +34,9 @@ concatenateMany inPaths outPath = do
   let toWrite = foldr (<>) "" fileContents
 
   writeTextFile UTF8 outPath toWrite
+
+countCharacters :: FilePath -> Aff (Either Error Int)
+countCharacters filePath = attempt go
+  where go = do
+          contents <- readTextFile UTF8 filePath
+          pure <<< length $ contents
