@@ -10,8 +10,7 @@ import Node.Encoding (Encoding(..))
 import Node.FS.Aff ( readTextFile
                    , writeTextFile
                    )
-import Node.Path ( FilePath
-                 )
+import Node.Path (FilePath)
 import Data.Traversable (traverse)
 import Data.Foldable (foldr)
 import Data.Either (Either)
