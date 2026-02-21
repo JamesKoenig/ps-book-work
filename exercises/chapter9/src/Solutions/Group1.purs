@@ -1,6 +1,6 @@
 module Solutions.Group1 ( concatenateFiles
+                        , concatenateMany
                         ) where
-
 import Prelude
 import Effect.Aff ( Aff
                   )
@@ -11,6 +11,8 @@ import Node.FS.Aff ( readTextFile
                    )
 import Node.Path ( FilePath
                  )
+import Data.Traversable (traverse)
+import Data.Foldable (foldr)
 
 --Exercise 1. (Easy) Write a function `concatenateFiles` function that 
 --                   concatenates two files
@@ -20,3 +22,11 @@ concatenateFiles inFirst inSecond outPath = do
   second_data <- readTextFile UTF8 inSecond
 
   writeTextFile UTF8 outPath (first_data <> second_data)
+
+concatenateMany :: Array FilePath -> FilePath -> Aff Unit
+concatenateMany inPaths outPath = do
+  fileContents <- traverse (readTextFile UTF8) inPaths
+
+  let toWrite = foldr (<>) "" fileContents
+
+  writeTextFile UTF8 outPath toWrite
