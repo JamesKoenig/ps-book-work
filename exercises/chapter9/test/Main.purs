@@ -1,7 +1,6 @@
 module Test.Main where
 
 import Prelude
-import Test.MySolutions
 
 import Data.Array ((..))
 import Data.Bifunctor (lmap)
@@ -21,6 +20,8 @@ import Test.HTTP (getUrl)
 import Test.Unit (TestSuite, suite, test)
 import Test.Unit.Assert as Assert
 import Test.Unit.Main (runTest)
+import Solutions.Group1 ( concatenateFiles
+                        )
 
 inDir :: FilePath
 inDir = Path.concat [ "test", "data" ]
@@ -50,7 +51,6 @@ main =
       files <- readdir outDir
       for_ files \f -> unlink $ Path.concat [ outDir, f ]
     runChapterExamples
-    {-  Move this block comment starting point to enable more tests
     test "concatenateFiles" do
       let
         inFoo = Path.concat [ inDir, "foo.txt" ]
@@ -64,6 +64,7 @@ main =
       inBarTxt <- readTextFile UTF8 inBar
       outFooBarTxt <- readTextFile UTF8 outFooBar
       Assert.equal (inFooTxt <> inBarTxt) outFooBarTxt
+    {-  Move this block comment starting point to enable more tests
     test "concatenateMany" do
       let
         inFiles = map (\i -> Path.concat [ inDir, "many", "file" <> show i <> ".txt" ]) $ 1 .. 9
