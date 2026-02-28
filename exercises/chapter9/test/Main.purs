@@ -27,6 +27,7 @@ import Solutions.Group1 ( concatenateFiles
 import Solutions.Group2 (writeGet)
 import Solutions.Group3 ( concatenateManyParallel
                         , getWithTimeout
+                        , recurseFiles
                         )
 
 inDir :: FilePath
@@ -122,7 +123,6 @@ main =
       test "no response" do
         actual <- getWithTimeout 10.0 "https://example.com:81"
         Assert.equal Nothing actual
-    {-  Move this block comment starting point to enable more tests
     suite "recurseFiles" do
       let
         recurseDir = Path.concat [ inDir, "tree" ]
@@ -142,6 +142,7 @@ main =
         actual <- recurseFiles file
         Assert.equal (Set.fromFoldable expected) $ Set.fromFoldable actual
 
+    {-  Move this block comment starting point to enable more tests
 -}
 runChapterExamples :: TestSuite
 runChapterExamples = do
