@@ -8,13 +8,13 @@ import Effect.Aff (Aff)
 import Control.Parallel (parTraverse)
 import Node.FS.Aff (readTextFile, writeTextFile)
 import Node.Encoding (Encoding(UTF8))
-import Data.Foldable (foldr)
 import Data.Maybe (Maybe(..))
 import Data.Either (Either(..))
 import Data.HTTP.Method (Method(GET))
 import Affjax.Node as AN
 import Data.Time.Duration (Milliseconds(..))
 import Affjax.ResponseFormat (string)
+import Data.Foldable (fold)
 
 -- (Easy) Write a `concatenateManyParallel` function with the same signature
 --        as the earliere `concatenateMany` function but reads all input files
@@ -23,7 +23,7 @@ concatenateManyParallel :: Array FilePath -> FilePath -> Aff Unit
 concatenateManyParallel inPaths outPath = do
   fileContents <- parTraverse (readTextFile UTF8) inPaths
 
-  let toWrite = foldr (<>) "" fileContents
+  let toWrite = fold fileContents
 
   writeTextFile UTF8 outPath toWrite
 
