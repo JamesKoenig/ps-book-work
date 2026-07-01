@@ -76,8 +76,6 @@ recurseFilesStep :: Array FilePath -> Aff (Array FilePath)
 recurseFilesStep files =
     fold <$> parTraverse readAndPrepend files
 
--- code is not working rn b/c recursefilesStep is prefixing the path
--- onto empty files
 recurseFiles :: FilePath -> Aff (Array FilePath)
 recurseFiles root = go [root] [root]
   where go :: Array FilePath -> Array FilePath -> Aff (Array FilePath)
